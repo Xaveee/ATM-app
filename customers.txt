@@ -1,0 +1,13 @@
+customer 1 1
+customer 1 usename
+customer 1 firstname
+customer 1 lastname
+customer 1 10
+customer 1 11
+
+customer 2 2
+customer 2 username
+customer 2 firstname
+customer 2 lastname
+customer 2 20
+customer 2 22
