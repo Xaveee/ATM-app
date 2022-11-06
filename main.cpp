@@ -18,7 +18,7 @@ int main()
 
     // 2. Save data to vectors for processing
     read_cust_to_vect("customers.txt", cust_vect);
-    // read_prod_to_vect("products.txt", prod_vect);
+    read_prod_to_vect("products.txt", prod_vect);
 
     int choice;
     do
@@ -55,6 +55,7 @@ int main()
             break;
         case 6:
             show_cust_by_id(cust_vect);
+            // show_prod_by_id(prod_vect);
             break;
         case 7:
             cout << choice << endl;

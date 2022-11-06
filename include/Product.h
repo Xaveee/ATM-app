@@ -8,13 +8,13 @@ using namespace std;
 class Product
 {
 private:
-    int id;
+    string id;
     string name;
     float price;
     int count;
 
 public:
-    Product(int id, string name, float price, int count)
+    Product(string id, string name, float price, int count)
     {
         this->id = id;
         this->name = name;
@@ -23,6 +23,9 @@ public:
     }
 
     ~Product() {}
+
+    void show_prod();
+    string get_id();
 };
 
 // Product::Product(int id, string name, float price, int count)

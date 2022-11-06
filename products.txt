@@ -1,0 +1,9 @@
+product 1 P1
+product 1 name1
+product 1 10
+product 1 100
+
+product 2 P2
+product 2 name2
+product 2 20
+product 2 200
