@@ -39,7 +39,8 @@ int main()
         case 0:
             break;
         case 1:
-            cout << choice << endl;
+            cust_registration(cust_vect);
+            write_to_cust("customers.txt", cust_vect);
             break;
         case 2:
             cout << choice << endl;

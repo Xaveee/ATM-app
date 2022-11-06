@@ -13,6 +13,7 @@ private:
     string first_name;
     string last_name;
     string dob;
+    string cred_num;
     float total_points;
 
 public:
@@ -21,6 +22,7 @@ public:
              string first_name = "",
              string last_name = "",
              string dob = 0,
+             string cred_num = "",
              float total_points = 0)
     {
         this->id = id;
@@ -28,6 +30,7 @@ public:
         this->first_name = first_name;
         this->last_name = last_name;
         this->dob = dob;
+        this->cred_num = cred_num;
         this->total_points = total_points;
     }
 
@@ -35,6 +38,12 @@ public:
 
     void show_cust();
     string get_id();
+    string get_username();
+    string get_fname();
+    string get_lname();
+    string get_dob();
+    string get_cred_num();
+    float get_point();
 };
 
 // Customer::~Customer()

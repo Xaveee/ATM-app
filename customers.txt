@@ -1,13 +1,31 @@
-customer 1 1
-customer 1 usename
-customer 1 firstname
-customer 1 lastname
-customer 1 10
-customer 1 11
+customer 1 CID0000000000
+customer 1 abcdefghijk121
+customer 1 sad
+customer 1 asd
+customer 1 02-29-0012
+customer 1 1212-1212-1212
+customer 1 1.000000
 
-customer 2 2
-customer 2 username
-customer 2 firstname
-customer 2 lastname
-customer 2 20
-customer 2 22
+customer 2 CID0000000001
+customer 2 asdasdqdqdq
+customer 2 qdqd
+customer 2 qwdqw
+customer 2 12-11-1212
+customer 2 1212-1212-1213
+customer 2 11111100.000000
+
+customer 3 CID0000000002
+customer 3 asdasdasdasd
+customer 3 asd
+customer 3 asdasd
+customer 3 12-11-1223
+customer 3 1244-1414-4141
+customer 3 123.000000
+
+customer 4 CID0000000003
+customer 4 adsasdasd
+customer 4 dassda
+customer 4 qdwqd
+customer 4 11-11-1212
+customer 4 1212-1212-2331
+customer 4 1212.000000
