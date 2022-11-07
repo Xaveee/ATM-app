@@ -145,7 +145,7 @@ void read_prod_to_vect(string file_name, vector<Product> &vect)
         } while (getline(file, line));
     }
 }
-void show_cust_by_id(vector<Customer> &vect)
+void find_cust_by_id(vector<Customer> &vect, string action)
 {
     string input;
     while (1)
@@ -157,20 +157,36 @@ void show_cust_by_id(vector<Customer> &vect)
             if (input == "exit")
                 break;
             else
+                ;
+            bool found = false;
+            int found_index = -1;
+            for (int i = 0; i < vect.size(); i++)
             {
-                bool found = false;
-                for (int i = 0; i < vect.size(); i++)
+                if (vect[i].get_id() == input)
                 {
-                    if (vect[i].get_id() == input)
-                    {
-                        vect[i].show_cust();
-                        found = true;
-                        break;
-                    }
+                    found_index = i;
+                    found = true;
+                    break;
                 }
-                if (!found)
-                    cout << "Customer not Found\n";
             }
+            if (!found)
+            {
+                cout << "Customer not Found\n";
+                break;
+            }
+            else
+                ;
+            if (action == "show")
+            {
+                vect[found_index].show_cust();
+            }
+            else if (action == "delete")
+            {
+                vect.erase(vect.begin() + found_index);
+            }
+            else
+                ;
+            break;
         }
         else
         {

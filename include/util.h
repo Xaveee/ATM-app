@@ -11,7 +11,7 @@ using namespace std;
 void read_cust_to_vect(string file_name, vector<Customer> &vect);
 void write_to_cust(string file_name, vector<Customer> vect);
 void read_prod_to_vect(string file_name, vector<Product> &vect);
-void show_cust_by_id(vector<Customer> &vect);
+void find_cust_by_id(vector<Customer> &vect, string action);
 void show_prod_by_id(vector<Product> &vect);
 void cust_registration(vector<Customer> &vect);
 int input_username(string &username, vector<Customer> vect);

@@ -43,7 +43,8 @@ int main()
             write_to_cust("customers.txt", cust_vect);
             break;
         case 2:
-            cout << choice << endl;
+            find_cust_by_id(cust_vect, "delete");
+            write_to_cust("customers.txt", cust_vect);
             break;
         case 3:
             cout << choice << endl;
@@ -55,7 +56,7 @@ int main()
             cout << choice << endl;
             break;
         case 6:
-            show_cust_by_id(cust_vect);
+            find_cust_by_id(cust_vect, "show");
             // show_prod_by_id(prod_vect);
             break;
         case 7:
