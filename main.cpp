@@ -52,7 +52,8 @@ int main()
             write_to_prod("products.txt", prod_vect);
             break;
         case 4:
-            cout << choice << endl;
+            find_prod_by_id(prod_vect, "delete");
+            write_to_prod("products.txt", prod_vect);
             break;
         case 5:
             cout << choice << endl;

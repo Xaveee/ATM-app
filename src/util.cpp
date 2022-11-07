@@ -222,7 +222,7 @@ void find_cust_by_id(vector<Customer> &vect, string action)
     }
 }
 
-void show_prod_by_id(vector<Product> &vect)
+void find_prod_by_id(vector<Product> &vect, string action)
 {
     string input;
     while (1)
@@ -234,20 +234,37 @@ void show_prod_by_id(vector<Product> &vect)
             if (input == "exit")
                 break;
             else
+                ;
+            bool found = false;
+            int found_index = -1;
+            for (int i = 0; i < vect.size(); i++)
             {
-                bool found = false;
-                for (int i = 0; i < vect.size(); i++)
+                if (vect[i].get_id() == input)
                 {
-                    if (vect[i].get_id() == input)
-                    {
-                        vect[i].show_prod();
-                        found = true;
-                        break;
-                    }
+                    found_index = i;
+                    found = true;
+                    break;
                 }
-                if (!found)
-                    cout << "Product not Found\n";
             }
+            if (!found)
+            {
+                cout << "Product not Found\n";
+                break;
+            }
+            else
+                ;
+            if (action == "show")
+            {
+                vect[found_index].show_prod();
+            }
+            else if (action == "delete")
+            {
+                cout << "Product profile with ID " << vect[found_index].get_id() << " is deleted.\n";
+                vect.erase(vect.begin() + found_index);
+            }
+            else
+                ;
+            break;
         }
         else
         {

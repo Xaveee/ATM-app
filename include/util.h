@@ -13,7 +13,7 @@ void write_to_cust(string file_name, vector<Customer> vect);
 void read_prod_to_vect(string file_name, vector<Product> &vect);
 void write_to_prod(string file_name, vector<Product> vect);
 void find_cust_by_id(vector<Customer> &vect, string action);
-void show_prod_by_id(vector<Product> &vect);
+void find_prod_by_id(vector<Product> &vect, string action);
 void cust_registration(vector<Customer> &vect);
 void prod_registration(vector<Product> &vect);
 int input_prod_description(string &description);
