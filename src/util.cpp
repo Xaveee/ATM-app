@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <math.h>
 
 #include "../include/Customer.h"
 #include "../include/Product.h"
@@ -145,6 +146,28 @@ void read_prod_to_vect(string file_name, vector<Product> &vect)
         } while (getline(file, line));
     }
 }
+
+void write_to_prod(string file_name, vector<Product> vect)
+{
+    ofstream file;
+    file.open(file_name);
+
+    for (int i = 0; i < vect.size(); i++)
+    {
+        file << "product " << i + 1 << " " << vect[i].get_id() << endl;
+        file << "product " << i + 1 << " " << vect[i].get_name() << endl;
+        file << fixed << "product " << i + 1 << " " << vect[i].get_price() << endl;
+        file << "product " << i + 1 << " " << vect[i].get_count() << endl;
+
+        if (i != vect.size() - 1)
+        {
+            file << endl;
+        }
+    }
+
+    file.close();
+}
+
 void find_cust_by_id(vector<Customer> &vect, string action)
 {
     string input;
@@ -182,6 +205,7 @@ void find_cust_by_id(vector<Customer> &vect, string action)
             }
             else if (action == "delete")
             {
+                cout << "Customer profile with ID " << vect[found_index].get_id() << " is deleted.\n";
                 vect.erase(vect.begin() + found_index);
             }
             else
@@ -284,26 +308,21 @@ void cust_registration(vector<Customer> &vect)
     else
         ;
     // ID
-
-    long int int_id;
+    string s_id;
     if (vect.size() >= 1)
-        int_id = stoi(vect[vect.size() - 1].get_id().substr(3, 10)) + 1;
-    else
-        int_id = 0;
-    if (int_id >= 9999999999)
     {
-        cout << "Run out of possible ID.\n";
+        s_id = id_generator(vect[vect.size() - 1].get_id(), "CID", 10);
+    }
+    else
+    {
+        s_id = id_generator("-1", "CID", 10);
+    }
+    if (s_id == "-1")
+    {
         return;
     }
     else
         ;
-    string s_id = to_string(int_id);
-    int init_id_size = s_id.size();
-    for (int i = 0; i < 10 - init_id_size; i++)
-    {
-        s_id = "0" + s_id;
-    }
-    s_id = "CID" + s_id;
     // reward point
     float point;
     valid = input_reward_point(point);
@@ -316,6 +335,171 @@ void cust_registration(vector<Customer> &vect)
     // cout << "username: " << username << "\tfirst name: " << firstname << "\tlast name: " << lastname << "\tdob: " << dob << "\tcred_num: " << cred_num << "\tid: " << s_id << "\tpoint: " << point << endl;
     Customer cust(s_id, username, firstname, lastname, dob, cred_num, point);
     vect.push_back(cust);
+}
+
+void prod_registration(vector<Product> &vect)
+{
+    bool valid;
+    // ID
+    string s_id;
+    if (vect.size() >= 1)
+    {
+        s_id = id_generator(vect[vect.size() - 1].get_id(), "P", 5);
+    }
+    else
+    {
+        s_id = id_generator("-1", "P", 5);
+    }
+    if (s_id == "-1")
+    {
+        return;
+    }
+    else
+        ;
+
+    // Name
+    string description;
+    valid = input_prod_description(description);
+    if (!valid)
+    {
+        return;
+    }
+    else
+        ;
+    // Price
+    float price;
+    valid = input_prod_price(price);
+    if (!valid)
+    {
+        return;
+    }
+    else
+        ;
+    // Amount in stock
+    int in_stock;
+    valid = input_prod_stock(in_stock);
+    if (!valid)
+    {
+        return;
+    }
+    else
+        ;
+
+    Product prod(s_id, description, price, in_stock);
+    vect.push_back(prod);
+}
+
+int input_prod_stock(int &in_stock)
+{
+    int input;
+    while (1)
+    {
+        cout << "Enter the number of items in stock or -1 to exit: ";
+        if (cin >> input)
+        {
+            if (input == -1)
+                return 0;
+            else
+                ;
+            if (input <= 0)
+            {
+                cout << "Invalid Input. Number of item must be a positive number.\n";
+                continue;
+            }
+            in_stock = input;
+            return 1;
+        }
+        else
+        {
+            cout << "Invalid Input" << endl;
+            cin.clear();
+            while (cin.get() != '\n')
+                ; // empty loop
+        }
+    }
+}
+
+int input_prod_price(float &price)
+{
+    float input;
+    while (1)
+    {
+        cout << "Enter the product price or -1 to exit: ";
+        if (cin >> input)
+        {
+            if (input == -1)
+                return 0;
+            else
+                ;
+            if (input <= 0)
+            {
+                cout << "Invalid Input. Product price must be a positive number.\n";
+                continue;
+            }
+            price = input;
+            return 1;
+        }
+        else
+        {
+            cout << "Invalid Input" << endl;
+            cin.clear();
+            while (cin.get() != '\n')
+                ; // empty loop
+        }
+    }
+}
+
+int input_prod_description(string &description)
+{
+    string input;
+    while (1)
+    {
+        cout << "Enter the product description or exit: ";
+        if (getline(cin, input))
+        {
+            if (input == "exit")
+                return 0;
+            else
+                ;
+            description = input;
+            return 1;
+        }
+        else
+        {
+            cout << "Invalid Input" << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            while (cin.get() != '\n')
+                ; // empty loop
+        }
+    }
+}
+
+string id_generator(string max_id, string header, int body_length)
+{
+    long int int_id;
+    if (max_id != "-1")
+    {
+        // cout << max_id.substr(header.size(), body_length) << endl;
+        int_id = stoi(max_id.substr(header.size(), body_length)) + 1;
+    }
+    else
+        int_id = 0;
+    if (int_id >= pow(10, body_length) - 1)
+    {
+        cout << "Run out of possible ID.\n";
+        return "-1";
+    }
+    else
+        ;
+    string s_id = to_string(int_id);
+    int init_id_size = s_id.size();
+    for (int i = 0; i < body_length - init_id_size; i++)
+    {
+        s_id = "0" + s_id;
+    }
+    s_id = header + s_id;
+    return s_id;
 }
 
 int input_username(string &username, vector<Customer> vect)

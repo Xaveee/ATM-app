@@ -26,6 +26,9 @@ public:
 
     void show_prod();
     string get_id();
+    string get_name();
+    float get_price();
+    int get_count();
 };
 
 // Product::Product(int id, string name, float price, int count)

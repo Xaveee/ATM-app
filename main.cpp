@@ -47,7 +47,9 @@ int main()
             write_to_cust("customers.txt", cust_vect);
             break;
         case 3:
-            cout << choice << endl;
+            cin.ignore();
+            prod_registration(prod_vect);
+            write_to_prod("products.txt", prod_vect);
             break;
         case 4:
             cout << choice << endl;

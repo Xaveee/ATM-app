@@ -15,3 +15,18 @@ string Product::get_id()
 {
     return id;
 }
+
+string Product::get_name()
+{
+    return name;
+}
+
+float Product::get_price()
+{
+    return price;
+}
+
+int Product::get_count()
+{
+    return count;
+}
