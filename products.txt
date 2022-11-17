@@ -1,7 +1,7 @@
 product 1 P00000
 product 1 sadsa
 product 1 1221.000000
-product 1 12
+product 1 8
 
 product 2 P00001
 product 2 asdasdas
@@ -11,7 +11,7 @@ product 2 10
 product 3 P00003
 product 3 asdasdas
 product 3 1221.000000
-product 3 8
+product 3 6
 
 product 4 P00004
 product 4 asdasd
@@ -21,14 +21,14 @@ product 4 0
 product 5 P00005
 product 5 qwdqwd
 product 5 12.000000
-product 5 7
+product 5 6
 
 product 6 P00006
 product 6 qwdqwq
 product 6 213.000000
-product 6 9
+product 6 5
 
 product 7 P00007
 product 7 sadasdas
 product 7 1221.000000
-product 7 9
+product 7 3

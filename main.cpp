@@ -5,20 +5,27 @@
 #include "include/Customer.h"
 #include "include/Product.h"
 #include "include/util.h"
-//#include "include/Rewardmanagement.h"
+// #include "include/Rewardmanagement.h"
 
 using namespace std;
 
 int main()
 {
-    string cust_file = "customers.txt", prod_file = "products.txt", gen_file = "general.txt", r_transact_file = "redeem_transactions.txt";
+    string cust_file = "customers.txt";
+    string prod_file = "products.txt";
+    string gen_file = "general.txt";
+    string r_transact_file = "redeem_transactions.txt";
+
+    string config_file_name = "config.txt";
+    string transact_file = "transactions.txt";
 
     // 1. Read customer and product save file
     vector<Customer> cust_vect;
     vector<Product> prod_vect;
     float reward_ratio, redeem_ratio;
-    int max_rtid;
+    int max_rtid, max_stid;
     get_general(gen_file, reward_ratio, redeem_ratio, max_rtid);
+    get_shopping_config(max_stid, config_file_name);
 
     // 2. Save data to vectors for processing
     read_cust_to_vect(cust_file, cust_vect);
@@ -62,7 +69,11 @@ int main()
             write_to_prod(prod_file, prod_vect);
             break;
         case 5:
-            cout << choice << endl;
+            // cout << choice << endl;
+            shop_prod(prod_vect, cust_vect, reward_ratio, max_stid, config_file_name, transact_file);
+            write_to_cust(cust_file, cust_vect);
+            write_to_prod(prod_file, prod_vect);
+
             break;
         case 6:
             find_cust_by_id(cust_vect, "show");

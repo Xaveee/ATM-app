@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include "Customer.h"
 #include "Product.h"
 
@@ -28,11 +29,24 @@ int input_reward_point(float &point);
 float input_ratio(string type);
 void change_reward_ratio(string gen_file, float &reward_ratio, float redeem_ratio, int max_rtid);
 void change_redeem_ratio(string gen_file, float reward_ratio, float &redeem_ratio, int max_rtid);
-void save_general(string file_name, float reward_ratio, float redeem_ratio, int max_rtid);
-void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid);
-void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid);
-void display_product(vector<Product> prod_vect, float redeem_ratio);
-int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, int &prod_index, int &cust_index, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid);
-void append_to_r_transact(string file_name, int max_tid, string cust_id, string prod_id, float prod_price, float prod_point);
 
+void save_general(string file_name, float reward_ratio, float redeem_ratio, int max_rtid);
+void save_shopping_config(string config_file, int max_tid);
+void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid);
+void get_shopping_config(int &max_stid, string file_name);
+
+void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid);
+
+void display_redeem_product(vector<Product> &prod_vect, float redeem_ratio);
+void display_shope_product(vector<Product> &prod_vect);
+
+int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, int &prod_index, int &cust_index, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid);
+
+void append_to_r_transact(string file_name, int &max_tid, string cust_id, string prod_id, float prod_price, float prod_point);
+void append_to_s_transact(string config_file, string file_name, int max_tid, map<int, int> &shop_cart, Customer cust, vector<Product> vect, float reward_ratio);
+
+void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float reward_ratio, int &max_tid, string config_file, string file_name);
+
+int add_to_cart(map<int, int> &shop_cart, vector<Product> &prod_vect);
+float print_cart(map<int, int> &shop_cart, vector<Product> &prod_vect);
 #endif

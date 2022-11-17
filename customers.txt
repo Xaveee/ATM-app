@@ -12,7 +12,7 @@ customer 2 asd
 customer 2 asdasd
 customer 2 12-11-1223
 customer 2 1244-1414-4141
-customer 2 3.000000
+customer 2 540.000061
 
 customer 3 CID0000000003
 customer 3 adsasdasd
@@ -20,7 +20,7 @@ customer 3 dassda
 customer 3 qdwqd
 customer 3 11-11-1212
 customer 3 1212-1212-2331
-customer 3 1212.000000
+customer 3 1638.000000
 
 customer 4 CID0000000004
 customer 4 asdasdfsf

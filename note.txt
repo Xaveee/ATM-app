@@ -1,0 +1,1 @@
+g++ src/util.cpp src/Customer.cpp src/Product.cpp main.cpp -o a

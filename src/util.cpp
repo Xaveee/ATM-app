@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <math.h>
+#include <map>
 
 #include "../include/Customer.h"
 #include "../include/Product.h"
@@ -173,7 +174,7 @@ int find_cust_by_id(vector<Customer> &vect, string action)
     string input;
     while (1)
     {
-        cout << "Enter id or exit: ";
+        cout << "Enter Customer id or exit: ";
         if (cin >> input) // Check input type
         {
             // validate input
@@ -195,7 +196,7 @@ int find_cust_by_id(vector<Customer> &vect, string action)
             if (!found)
             {
                 cout << "Customer not Found\n";
-                return -1;
+                continue;
             }
             else
                 ;
@@ -976,6 +977,15 @@ void save_general(string file_name, float reward_ratio, float redeem_ratio, int 
 
     file.close();
 }
+void save_shopping_config(string config_file, int max_tid)
+{
+    ofstream file;
+
+    file.open(config_file);
+    file << "Max STID " << max_tid << endl;
+
+    file.close();
+}
 
 void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid)
 {
@@ -1009,8 +1019,35 @@ void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int
     reward_ratio = stof(parse_line(line));
     getline(file, line);
     redeem_ratio = stof(parse_line(line));
+    getline(file, line);
+    max_rtid = stof(parse_line(line));
 }
 
+void get_shopping_config(int &max_stid, string file_name)
+{
+    string line;
+
+    ifstream file;
+    file.open(file_name);
+
+    if (!file)
+    {
+        cout << "Creating shopping save file...\n";
+        // Create run_log
+        ofstream new_file;
+        new_file.open(file_name);
+        cout << "Saving the max shopping Transaction ID as 0...\n";
+        new_file << "Max RTID 0" << endl;
+        new_file.close();
+        max_stid = 0;
+        return;
+    }
+    else
+        ;
+
+    getline(file, line);
+    max_stid = stof(parse_line(line));
+}
 void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid)
 {
     string input;
@@ -1023,7 +1060,7 @@ void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float 
     else
         ;
     cout << "Hello, " << cust_vect[cust_index].get_fname() << " " << cust_vect[cust_index].get_lname() << ".\n";
-    cout << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n";
+    cout << fixed << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n";
 
     string pid;
     int prod_index, state;
@@ -1046,7 +1083,8 @@ void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float 
 
 int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, int &prod_index, int &cust_index, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid)
 {
-    display_product(prod_vect, redeem_ratio);
+    cout << "Available Products: \n\n";
+    display_redeem_product(prod_vect, redeem_ratio);
     cout << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n";
     prod_index = find_prod_by_id(prod_vect, "check");
     if (prod_index == -2)
@@ -1084,9 +1122,8 @@ int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, 
     return -1;
 }
 
-void display_product(vector<Product> prod_vect, float redeem_ratio)
+void display_redeem_product(vector<Product> &prod_vect, float redeem_ratio)
 {
-    cout << "Available Products: \n\n";
     for (int i = 0; i < prod_vect.size(); i++)
     {
         cout << "Product ID: " << prod_vect[i].get_id() << endl;
@@ -1096,7 +1133,18 @@ void display_product(vector<Product> prod_vect, float redeem_ratio)
     }
 }
 
-void append_to_r_transact(string file_name, int max_tid, string cust_id, string prod_id, float prod_price, float prod_point)
+void display_shop_product(vector<Product> &prod_vect)
+{
+    for (int i = 0; i < prod_vect.size(); i++)
+    {
+        cout << "Product ID: " << prod_vect[i].get_id() << endl;
+        cout << "Product Description: " << prod_vect[i].get_name() << endl;
+        cout << "Product Price: " << prod_vect[i].get_price() << endl;
+        cout << prod_vect[i].get_count() << " item(s) are left in stock.\n\n";
+    }
+}
+
+void append_to_r_transact(string file_name, int &max_tid, string cust_id, string prod_id, float prod_price, float prod_point)
 {
     ofstream file;
 
@@ -1134,4 +1182,190 @@ void append_to_r_transact(string file_name, int max_tid, string cust_id, string 
          << endl;
 
     file.close();
+}
+
+void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float reward_ratio, int &max_tid, string config_file, string file_name)
+{
+    cout << "Please log in to shop or exit\n";
+
+    int cust_index = find_cust_by_id(cust_vect, "check");
+
+    if (cust_index == -1)
+        return;
+    cout << "\nHello, " << cust_vect[cust_index].get_fname() << " " << cust_vect[cust_index].get_lname() << ".\n";
+
+    map<int, int> shop_cart;
+    print_cart(shop_cart, prod_vect);
+
+    cout << "Below is the list of availabe product\n\n";
+    display_shop_product(prod_vect);
+
+    while (1)
+    {
+        int state = add_to_cart(shop_cart, prod_vect);
+        if (state == -2)
+            break;
+        else if (state == -1)
+            continue;
+
+        cout << "\nYour current cart\n";
+        print_cart(shop_cart, prod_vect);
+    }
+
+    // CHECK OUT
+    string input;
+    while (1)
+    {
+        float sub_total = print_cart(shop_cart, prod_vect);
+        cout << "Your total is: " << sub_total << endl;
+        cout << "Points received: " << sub_total * reward_ratio << endl;
+
+        cout << "Checkout ?(y/n): ";
+        if (cin >> input)
+        {
+            if (input == "y")
+            {
+                float total = 0;
+                for (auto pair : shop_cart)
+                {
+                    // set new cout
+                    int new_count = prod_vect[pair.first].get_count() - pair.second;
+                    prod_vect[pair.first].set_count(new_count);
+                    total += prod_vect[pair.first].get_price() * pair.second;
+                }
+                // add reward to cust
+                float new_reward = cust_vect[cust_index].get_point() + total * reward_ratio;
+                cust_vect[cust_index].set_point(new_reward);
+                // save transaction
+                append_to_s_transact(config_file,
+                                     file_name,
+                                     max_tid,
+                                     shop_cart,
+                                     cust_vect[cust_index],
+                                     prod_vect,
+                                     reward_ratio);
+                break;
+            }
+            else if (input == "n")
+            {
+                cout << "Cart deleted\n";
+                return;
+            }
+            else
+                continue;
+        }
+    }
+}
+
+int add_to_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
+{
+    int prod_index;
+    while (1)
+    {
+        cout << "Enter exit to continue to check out\n";
+        prod_index = find_prod_by_id(prod_vect, "check");
+        if (prod_index == -2) // exit
+        {
+            return -2;
+        }
+        else if (prod_index == -1) // not found
+        {
+            continue;
+        }
+        else
+            break;
+    }
+    int prod_count;
+    int input;
+    while (1)
+    {
+        cout << "Please enter amount:";
+        if (cin >> input)
+        {
+            if (input == -2) // exit
+                return -2;
+            else if (input == -1) // choose different product
+                return -1;
+            if ((input > 0) and (input <= prod_vect[prod_index].get_count()))
+            {
+                prod_count = input;
+                // insert to cart
+                auto itr = shop_cart.find(prod_index);
+                if (itr != shop_cart.end())
+                    itr->second += prod_count;
+                else
+                    shop_cart.insert({prod_index, prod_count});
+
+                // int new_count = prod_vect[prod_index].get_count() - prod_count;
+                // prod_vect[prod_index].set_count(new_count);
+                break;
+            }
+            else
+            {
+                cout << "Invalid ammount\n";
+                continue;
+            }
+        }
+    }
+}
+
+float print_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
+{
+    float total = 0;
+    cout << endl;
+    for (auto pair : shop_cart)
+    {
+        cout << prod_vect[pair.first].get_name() << ": " << pair.second << " item(s)\n";
+        total += prod_vect[pair.first].get_price() * pair.second;
+    }
+    cout << "Your Sub-Total is: " << total << "\n\n";
+    return total;
+}
+
+void append_to_s_transact(string config_file, string file_name, int max_tid, map<int, int> &shop_cart, Customer cust, vector<Product> vect, float reward_ratio)
+{
+    ofstream file;
+    file.open(file_name, ios_base::app);
+    if (!file)
+    {
+        cout << "Creating Shopping Transaction save file...\n";
+        // Create run_log
+        ofstream new_file;
+        new_file.open(file_name);
+        new_file.close();
+    }
+
+    if (max_tid == 0)
+    {
+        file << "Transaction ID " << id_generator("S0000000000", "S", 10) << endl;
+    }
+    else
+    {
+        string s_id = to_string(max_tid);
+        int init_id_size = s_id.size();
+        for (int i = 0; i < 10 - init_id_size; i++)
+        {
+            s_id = "0" + s_id;
+        }
+        s_id = "S" + s_id;
+        file << "Transaction ID " << id_generator(s_id, "S", 10) << endl;
+    }
+    file << "Customer ID " << cust.get_id() << endl;
+
+    float total;
+    for (map<int, int>::iterator it = shop_cart.begin(); it != shop_cart.end(); ++it)
+    {
+        file << vect[it->first].get_id() << " " << it->second;
+        total += vect[it->first].get_price() * it->second;
+
+        if (it != shop_cart.end())
+            file << ", ";
+    }
+
+    file << endl
+         << total << endl;
+    file << total * reward_ratio << endl;
+
+    max_tid++;
+    save_shopping_config(config_file, max_tid);
 }
