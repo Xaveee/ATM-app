@@ -67,7 +67,7 @@ int main()
             cout << choice << endl;
             break;
         case 8:
-            Reward_managment(cust_vect);
+            void Reward_managment(vector<Rewardmanagement> &vect, int amount);
             break;
 
         default:
