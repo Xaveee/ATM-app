@@ -1,0 +1,3 @@
+Reward Ratio 1
+Redeem Ratio 0.1
+Max RTID 1

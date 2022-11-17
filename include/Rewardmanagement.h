@@ -8,11 +8,11 @@ using namespace std;
 class Rewardmanagement
 {
 private:
-        int points;
-        int amount;
-        string gift;
-        int shopping_amount;
-        float total_points;
+    int points;
+    int amount;
+    string gift;
+    int shopping_amount;
+    float total_points;
 
 public:
     int Rewardmanagment(int points, int amount, float total_points, int shopping_amount, string gift)
@@ -29,8 +29,5 @@ public:
     // ~Rewardmanagment() {}
     // void givenPoints();
     // void redeemPoints();
-
-
-
 };
 #endif

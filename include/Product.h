@@ -29,6 +29,7 @@ public:
     string get_name();
     float get_price();
     int get_count();
+    void set_count(float n_count);
 };
 
 // Product::Product(int id, string name, float price, int count)

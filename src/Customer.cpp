@@ -47,3 +47,8 @@ float Customer::get_point()
 {
     return total_points;
 }
+
+void Customer::set_point(float n_point)
+{
+    total_points = n_point;
+}

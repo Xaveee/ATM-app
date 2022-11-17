@@ -30,3 +30,7 @@ int Product::get_count()
 {
     return count;
 }
+void Product::set_count(float n_count)
+{
+    count = n_count;
+}

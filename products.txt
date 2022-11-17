@@ -6,29 +6,29 @@ product 1 12
 product 2 P00001
 product 2 asdasdas
 product 2 1221.000000
-product 2 12
+product 2 10
 
 product 3 P00003
 product 3 asdasdas
 product 3 1221.000000
-product 3 12
+product 3 8
 
 product 4 P00004
 product 4 asdasd
 product 4 2112.000000
-product 4 1
+product 4 0
 
 product 5 P00005
 product 5 qwdqwd
 product 5 12.000000
-product 5 12
+product 5 7
 
 product 6 P00006
 product 6 qwdqwq
 product 6 213.000000
-product 6 11
+product 6 9
 
 product 7 P00007
 product 7 sadasdas
 product 7 1221.000000
-product 7 12
+product 7 9

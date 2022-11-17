@@ -44,6 +44,7 @@ public:
     string get_dob();
     string get_cred_num();
     float get_point();
+    void set_point(float n_point);
 };
 
 // Customer::~Customer()

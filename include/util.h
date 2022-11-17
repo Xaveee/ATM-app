@@ -12,8 +12,8 @@ void read_cust_to_vect(string file_name, vector<Customer> &vect);
 void write_to_cust(string file_name, vector<Customer> vect);
 void read_prod_to_vect(string file_name, vector<Product> &vect);
 void write_to_prod(string file_name, vector<Product> vect);
-void find_cust_by_id(vector<Customer> &vect, string action);
-void find_prod_by_id(vector<Product> &vect, string action);
+int find_cust_by_id(vector<Customer> &vect, string action);
+int find_prod_by_id(vector<Product> &vect, string action);
 void cust_registration(vector<Customer> &vect);
 void prod_registration(vector<Product> &vect);
 int input_prod_description(string &description);
@@ -25,4 +25,14 @@ int input_name(string &name, string type);
 int input_dob(string &dob);
 int input_cred_num(string &cred_num, vector<Customer> vect);
 int input_reward_point(float &point);
+float input_ratio(string type);
+void change_reward_ratio(string gen_file, float &reward_ratio, float redeem_ratio, int max_rtid);
+void change_redeem_ratio(string gen_file, float reward_ratio, float &redeem_ratio, int max_rtid);
+void save_general(string file_name, float reward_ratio, float redeem_ratio, int max_rtid);
+void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid);
+void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid);
+void display_product(vector<Product> prod_vect, float redeem_ratio);
+int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, int &prod_index, int &cust_index, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid);
+void append_to_r_transact(string file_name, int max_tid, string cust_id, string prod_id, float prod_price, float prod_point);
+
 #endif

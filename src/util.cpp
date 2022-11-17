@@ -168,7 +168,7 @@ void write_to_prod(string file_name, vector<Product> vect)
     file.close();
 }
 
-void find_cust_by_id(vector<Customer> &vect, string action)
+int find_cust_by_id(vector<Customer> &vect, string action)
 {
     string input;
     while (1)
@@ -178,7 +178,7 @@ void find_cust_by_id(vector<Customer> &vect, string action)
         {
             // validate input
             if (input == "exit")
-                break;
+                return -1;
             else
                 ;
             bool found = false;
@@ -195,22 +195,27 @@ void find_cust_by_id(vector<Customer> &vect, string action)
             if (!found)
             {
                 cout << "Customer not Found\n";
-                break;
+                return -1;
             }
             else
                 ;
             if (action == "show")
             {
                 vect[found_index].show_cust();
+                return 1;
             }
             else if (action == "delete")
             {
                 cout << "Customer profile with ID " << vect[found_index].get_id() << " is deleted.\n";
                 vect.erase(vect.begin() + found_index);
+                return 1;
+            }
+            else if (action == "check")
+            {
+                return found_index;
             }
             else
                 ;
-            break;
         }
         else
         {
@@ -222,7 +227,7 @@ void find_cust_by_id(vector<Customer> &vect, string action)
     }
 }
 
-void find_prod_by_id(vector<Product> &vect, string action)
+int find_prod_by_id(vector<Product> &vect, string action)
 {
     string input;
     while (1)
@@ -232,7 +237,7 @@ void find_prod_by_id(vector<Product> &vect, string action)
         {
             // validate input
             if (input == "exit")
-                break;
+                return -2;
             else
                 ;
             bool found = false;
@@ -249,22 +254,27 @@ void find_prod_by_id(vector<Product> &vect, string action)
             if (!found)
             {
                 cout << "Product not Found\n";
-                break;
+                return -1;
             }
             else
                 ;
             if (action == "show")
             {
                 vect[found_index].show_prod();
+                return 1;
             }
             else if (action == "delete")
             {
                 cout << "Product profile with ID " << vect[found_index].get_id() << " is deleted.\n";
                 vect.erase(vect.begin() + found_index);
+                return 1;
+            }
+            else if (action == "check")
+            {
+                return found_index;
             }
             else
                 ;
-            break;
         }
         else
         {
@@ -547,14 +557,14 @@ int input_username(string &username, vector<Customer> vect)
             {
                 username_num = "";
             }
-            if ((username_char.find_first_not_of("abcdefghijklmnopqrstuvwxyz") != string::npos) or (username_char.size() < 8))
+            if ((username_char.find_first_not_of("abcdefghijklmnopqrstuvwxyz") != string::npos) || (username_char.size() < 8))
             {
                 cout << "Invalid Input. The username must start with at least 8 characters.\n";
                 continue;
             }
             else
                 ;
-            if ((username_num.find_first_not_of("0123456789") != string::npos) or (username_num.size() > 3))
+            if ((username_num.find_first_not_of("0123456789") != string::npos) || (username_num.size() > 3))
             {
                 cout << "Invalid Input. The username must end with at most 3 numbers.\n";
                 continue;
@@ -641,7 +651,7 @@ int input_dob(string &dob)
                 return 0;
             else
                 ;
-            if ((year < 0) or (year > 9999))
+            if ((year < 0) || (year > 9999))
             {
                 cout << "Your year of birth must be between 0 and 9999.\n";
                 continue;
@@ -669,7 +679,7 @@ int input_dob(string &dob)
                 return 0;
             else
                 ;
-            if ((month < 0) or (month > 12))
+            if ((month < 0) || (month > 12))
             {
                 cout << "Your month of birth must be between 1 and 12.\n";
                 continue;
@@ -725,19 +735,19 @@ int input_dob(string &dob)
                 else
                     ;
             }
-            if ((month == 2) and (year % 4 != 0))
+            if ((month == 2) && (year % 4 != 0))
             {
                 day_max = 28;
             }
-            else if ((month == 2) and (year % 4 == 0) and (year % 100 != 0))
+            else if ((month == 2) && (year % 4 == 0) && (year % 100 != 0))
             {
                 day_max = 29;
             }
-            else if ((month == 2) and (year % 4 == 0) and (year % 100 == 0) and (year % 400 != 0))
+            else if ((month == 2) && (year % 4 == 0) && (year % 100 == 0) && (year % 400 != 0))
             {
                 day_max = 28;
             }
-            else if ((month == 2) and (year % 4 == 0) and (year % 100 == 0) and (year % 400 == 0))
+            else if ((month == 2) && (year % 4 == 0) && (year % 100 == 0) && (year % 400 == 0))
             {
                 day_max = 29;
             }
@@ -765,11 +775,11 @@ int input_dob(string &dob)
     {
         s_year = "000" + to_string(year);
     }
-    else if ((year >= 10) and (year < 100))
+    else if ((year >= 10) && (year < 100))
     {
         s_year = "00" + to_string(year);
     }
-    else if ((year >= 100) and (year < 1000))
+    else if ((year >= 100) && (year < 1000))
     {
         s_year = "0" + to_string(year);
     }
@@ -888,4 +898,240 @@ int input_reward_point(float &point)
                 ; // empty loop
         }
     }
+}
+
+float input_ratio(string type)
+{
+    float input, ratio;
+    while (1)
+    {
+        if (type == "reward")
+            cout << "Enter the new reward ratio from 1 USD to x point(s) or -1 to exit: ";
+        else if (type == "redeem")
+            cout << "Enter the new redeem ratio from 1 point to x USD(s) or -1 to exit: ";
+        else
+            ;
+        if (cin >> input)
+        {
+            if (input == -1)
+                return -1;
+            else
+                ;
+            if (input <= 0)
+            {
+                cout << "Invalid Input. Ratio must be a positive number.\n";
+                continue;
+            }
+            else
+                ;
+            ratio = input;
+            return ratio;
+        }
+        else
+        {
+            cout << "Invalid Input" << endl;
+            cin.clear();
+            while (cin.get() != '\n')
+                ; // empty loop
+        }
+    }
+}
+
+void change_reward_ratio(string gen_file, float &reward_ratio, float redeem_ratio, int max_rtid)
+{
+    cout << "Current reward ratio is " << reward_ratio << endl;
+    float temp;
+    temp = input_ratio("reward");
+    if (temp != -1)
+    {
+        reward_ratio = temp;
+        save_general(gen_file, reward_ratio, redeem_ratio, max_rtid);
+    }
+    else
+        ;
+}
+
+void change_redeem_ratio(string gen_file, float reward_ratio, float &redeem_ratio, int max_rtid)
+{
+    cout << "Current redeem ratio is " << redeem_ratio << endl;
+    float temp;
+    temp = input_ratio("redeem");
+    if (temp != -1)
+    {
+        redeem_ratio = temp;
+        save_general(gen_file, reward_ratio, redeem_ratio, max_rtid);
+    }
+    else
+        ;
+}
+
+void save_general(string file_name, float reward_ratio, float redeem_ratio, int max_rtid)
+{
+    ofstream file;
+    file.open(file_name);
+
+    file << "Reward Ratio " << reward_ratio << endl;
+    file << "Redeem Ratio " << redeem_ratio << endl;
+    file << "Max RTID " << max_rtid << endl;
+
+    file.close();
+}
+
+void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid)
+{
+    string line;
+
+    ifstream file;
+    file.open(file_name);
+
+    if (!file)
+    {
+        cout << "Creating general save file...\n";
+        // Create run_log
+        ofstream new_file;
+        new_file.open(file_name);
+        cout << "Saving the reward ratio as 1...\n";
+        new_file << "Reward Ratio 1" << endl;
+        cout << "Saving the redeem ratio as 0.1...\n";
+        new_file << "Reward Ratio 0.1" << endl;
+        cout << "Saving the max Redeem Transaction ID as 0...\n";
+        new_file << "Max RTID 0" << endl;
+        new_file.close();
+        reward_ratio = 1;
+        redeem_ratio = 0.1;
+        max_rtid = 0;
+        return;
+    }
+    else
+        ;
+
+    getline(file, line);
+    reward_ratio = stof(parse_line(line));
+    getline(file, line);
+    redeem_ratio = stof(parse_line(line));
+}
+
+void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid)
+{
+    string input;
+    int cust_index;
+    cust_index = find_cust_by_id(cust_vect, "check");
+    if (cust_index == -1)
+    {
+        return;
+    }
+    else
+        ;
+    cout << "Hello, " << cust_vect[cust_index].get_fname() << " " << cust_vect[cust_index].get_lname() << ".\n";
+    cout << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n";
+
+    string pid;
+    int prod_index, state;
+
+    while (1)
+    {
+        state = redeem_transaction(prod_vect, cust_vect, prod_index, cust_index, redeem_ratio, gen_file, r_transact_file, max_rtid);
+        if (state == -2)
+        {
+            return;
+        }
+        else if (state == -1)
+        {
+            continue;
+        }
+        else
+            ;
+    }
+}
+
+int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, int &prod_index, int &cust_index, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid)
+{
+    display_product(prod_vect, redeem_ratio);
+    cout << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n";
+    prod_index = find_prod_by_id(prod_vect, "check");
+    if (prod_index == -2)
+    {
+        return -2;
+    }
+    else if (prod_index == -1)
+    {
+        return -1;
+    }
+    else
+        ;
+
+    if (prod_vect[prod_index].get_count() == 0)
+    {
+        cout << "No item left in stock. Please try another product.\n";
+        return -1;
+    }
+    else if (prod_vect[prod_index].get_price() / redeem_ratio > cust_vect[cust_index].get_point())
+    {
+        cout << "You do not have enough points to redeem this product.\n";
+        return -1;
+    }
+    else
+        ;
+
+    prod_vect[prod_index].set_count(prod_vect[prod_index].get_count() - 1);
+    cust_vect[cust_index].set_point(cust_vect[cust_index].get_point() - prod_vect[prod_index].get_price() / redeem_ratio);
+    cout << "You have redeem 1 " << prod_vect[prod_index].get_name() << ". Your new number of reward point is " << cust_vect[cust_index].get_point() << ".\n";
+    append_to_r_transact(r_transact_file, max_rtid, cust_vect[cust_index].get_id(), prod_vect[prod_index].get_id(), prod_vect[prod_index].get_price(), prod_vect[prod_index].get_price() / redeem_ratio);
+    max_rtid++;
+    float rw_ratio, rd_ratio;
+    get_general(gen_file, rw_ratio, rd_ratio, max_rtid);
+    save_general(gen_file, rw_ratio, rd_ratio, max_rtid);
+    return -1;
+}
+
+void display_product(vector<Product> prod_vect, float redeem_ratio)
+{
+    cout << "Available Products: \n\n";
+    for (int i = 0; i < prod_vect.size(); i++)
+    {
+        cout << "Product ID: " << prod_vect[i].get_id() << endl;
+        cout << "Product Description: " << prod_vect[i].get_name() << endl;
+        cout << "Product Price: " << prod_vect[i].get_price() / redeem_ratio << " point(s)" << endl;
+        cout << prod_vect[i].get_count() << " item(s) are left in stock.\n\n";
+    }
+}
+
+void append_to_r_transact(string file_name, int max_tid, string cust_id, string prod_id, float prod_price, float prod_point)
+{
+    ofstream file;
+
+    file.open(file_name, ios_base::app);
+
+    if (!file)
+    {
+        cout << "Creating Redeem Transaction save file...\n";
+        // Create run_log
+        ofstream new_file;
+        new_file.open(file_name);
+        new_file.close();
+    }
+
+    if (max_tid == 0)
+    {
+        file << "Transaction ID " << id_generator("T0000000000", "T", 10) << endl;
+        ;
+    }
+    else
+    {
+        string s_id = to_string(max_tid);
+        int init_id_size = s_id.size();
+        for (int i = 0; i < 10 - init_id_size; i++)
+        {
+            s_id = "0" + s_id;
+        }
+        s_id = "T" + s_id;
+        file << "Transaction ID " << id_generator(s_id, "T", 10) << endl;
+    }
+    file << "Customer ID " << cust_id << endl;
+    file << "Product ID " << prod_id << endl;
+    file << "Price: $" << prod_price << endl;
+    file << "Points deducted: " << prod_point << endl
+         << endl;
+
+    file.close();
 }
