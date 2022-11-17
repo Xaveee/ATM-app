@@ -5,6 +5,7 @@
 #include "include/Customer.h"
 #include "include/Product.h"
 #include "include/util.h"
+#include "include/Rewardmanagement.h"
 
 using namespace std;
 
@@ -64,6 +65,9 @@ int main()
             break;
         case 7:
             cout << choice << endl;
+            break;
+        case 8:
+            Rewardmanagement(cust_vect);
             break;
 
         default:
