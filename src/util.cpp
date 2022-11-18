@@ -12,6 +12,12 @@
 
 using namespace std;
 
+// ******************************************************************************
+// Function Name:   parse_line()
+// Parameter:       a string containing multiple words separated by spaces
+// Return:          the last word in the string
+// Description:     Function used to get the actual data from lines in text files
+// ******************************************************************************
 string parse_line(string line)
 {
     int index;
@@ -20,33 +26,50 @@ string parse_line(string line)
     return line.substr(index, line.length() - 1);
 }
 
+// ******************************************************************************
+// Function Name:   id_generator
+// Parameter:       a string containing the current "maximum" ID, the ID's header
+//                  and the number of digits after the header
+// Return:          the next unique ID
+// Description:     Function used to generate ID for customer, product, transactions
+// ******************************************************************************
 string id_generator(string max_id, string header, int body_length)
 {
     long int int_id;
-    if (max_id != "-1")
+
+    if (max_id != "-1") // there are previous IDs in database
     {
         // cout << max_id.substr(header.size(), body_length) << endl;
         int_id = stoi(max_id.substr(header.size(), body_length)) + 1;
+        // new ID is old maximum ID + 1. For example, if the max ID is P00007, the newly generated ID should be P00008
     }
-    else
-        int_id = 0;
-    if (int_id >= pow(10, body_length) - 1)
+    else            // no previous ID in database
+        int_id = 0; // assume the first ID is 0
+
+    if (int_id >= pow(10, body_length) - 1) // depends on the body_length, the available ID can actually run out.
     {
         cout << "Run out of possible ID.\n";
-        return "-1";
+        return "-1"; // Fail to generate ID
     }
     else
         ;
-    string s_id = to_string(int_id);
-    int init_id_size = s_id.size();
-    for (int i = 0; i < body_length - init_id_size; i++)
+
+    string s_id = to_string(int_id);                     // convert the digit part of the ID to string
+    int init_id_size = s_id.size();                      // original size
+    for (int i = 0; i < body_length - init_id_size; i++) // padding the string with heading zeros
     {
         s_id = "0" + s_id;
     }
-    s_id = header + s_id;
+    s_id = header + s_id; // add the header
     return s_id;
 }
 
+// ******************************************************************************
+// Function Name:   read_cust_to_vect()
+// Parameter:       customer file name, customer vector
+// Return:          N/A
+// Description:     Function used to load the data from the customer txt file to the vector
+// ******************************************************************************
 void read_cust_to_vect(string file_name, vector<Customer> &vect)
 {
     string line;
@@ -54,7 +77,7 @@ void read_cust_to_vect(string file_name, vector<Customer> &vect)
     ifstream file;
     file.open(file_name);
 
-    if (!file)
+    if (!file) // file does not exist
     {
         cout << "Creating Customer save file...\n";
         // Create run_log
@@ -93,6 +116,7 @@ void read_cust_to_vect(string file_name, vector<Customer> &vect)
             float total_points = stof(parse_line(line));
             getline(file, line);
 
+            // Create Customer object
             Customer cust(id,
                           username,
                           first_name,
@@ -100,12 +124,18 @@ void read_cust_to_vect(string file_name, vector<Customer> &vect)
                           dob,
                           cred_num,
                           total_points);
-            vect.push_back(cust);
+            vect.push_back(cust); // insert object to vector
             // cout << index << endl;
         } while (getline(file, line));
     }
 }
 
+// ******************************************************************************
+// Function Name:   write_to_cust()
+// Parameter:       customer file name, customer vector
+// Return:          N/A
+// Description:     Function used to save the data to customer txt file
+// ******************************************************************************
 void write_to_cust(string file_name, vector<Customer> vect)
 {
     ofstream file;
@@ -129,6 +159,12 @@ void write_to_cust(string file_name, vector<Customer> vect)
     file.close();
 }
 
+// ******************************************************************************
+// Function Name:   read_prod_to_vect()
+// Parameter:       product file name, product vector
+// Return:          N/A
+// Description:     Function used to load the data from the product txt file to the vector
+// ******************************************************************************
 void read_prod_to_vect(string file_name, vector<Product> &vect)
 {
     string line;
@@ -176,6 +212,12 @@ void read_prod_to_vect(string file_name, vector<Product> &vect)
     }
 }
 
+// ******************************************************************************
+// Function Name:   write_to_prod()
+// Parameter:       product file name, product vector
+// Return:          N/A
+// Description:     Function used to save the data to product txt file
+// ******************************************************************************
 void write_to_prod(string file_name, vector<Product> vect)
 {
     ofstream file;
@@ -197,22 +239,32 @@ void write_to_prod(string file_name, vector<Product> vect)
     file.close();
 }
 
+// ******************************************************************************
+// Function Name:   find_cust_by_id()
+// Parameter:       customer vector, action - can be "show", "delete" or "check"
+// Return:          -1 if user type "exit", 1 if action is "show" or "delete"
+//                  and the customer can be found, the customer's index if
+//                  action is "check" and the customer can be found
+// Description:     Function used to find a customer using ID and either show, delete or check their index
+// ******************************************************************************
 int find_cust_by_id(vector<Customer> &vect, string action)
 {
     string input;
     while (1)
     {
-        cout << "Enter Customer id or exit: ";
+        cout << "Enter Customer ID or exit: ";
         if (cin >> input) // Check input type
         {
             // validate input
-            if (input == "exit")
+            if (input == "exit") // User WANT to exit
                 return -1;
             else
                 ;
-            bool found = false;
-            int found_index = -1;
-            for (int i = 0; i < vect.size(); i++)
+
+            bool found = false;   // if the customer is found
+            int found_index = -1; // the index of wanted customer
+
+            for (int i = 0; i < vect.size(); i++) // Find customer in vector
             {
                 if (vect[i].get_id() == input)
                 {
@@ -221,27 +273,30 @@ int find_cust_by_id(vector<Customer> &vect, string action)
                     break;
                 }
             }
-            if (!found)
+
+            if (!found) // the customer cannot be found
             {
-                cout << "Customer not Found\n";
-                continue;
+                cout << "Customer not Found.\n";
+                continue; // ask again
             }
             else
                 ;
-            if (action == "show")
+
+            // Acts based on action
+            if (action == "show") // display customer's informations
             {
                 vect[found_index].show_cust();
-                return 1;
+                return 1; // Successful
             }
-            else if (action == "delete")
+            else if (action == "delete") // delete customer's information
             {
                 cout << "Customer profile with ID " << vect[found_index].get_id() << " is deleted.\n";
                 vect.erase(vect.begin() + found_index);
-                return 1;
+                return 1; // Successful
             }
-            else if (action == "check")
+            else if (action == "check") // find the customer's index in vector
             {
-                return found_index;
+                return found_index; // Successful
             }
             else
                 ;
@@ -256,22 +311,32 @@ int find_cust_by_id(vector<Customer> &vect, string action)
     }
 }
 
+// ******************************************************************************
+// Function Name:   find_prod_by_id()
+// Parameter:       product vector, action - can be "show", "delete" or "check"
+// Return:          -2 if user type "exit", -1 id the product cannot be found,
+//                  1 if action is "show" or "delete" and the product can be found,
+//                  the product's index if action is "check" and the product can be found
+// Description:     Function used to find a product using ID and either show, delete or check its index
+// ******************************************************************************
 int find_prod_by_id(vector<Product> &vect, string action)
 {
     string input;
     while (1)
     {
-        cout << "Enter product id or exit: ";
+        cout << "Enter Product ID or exit: ";
         if (cin >> input) // Check input type
         {
             // validate input
-            if (input == "exit")
+            if (input == "exit") // User WANT to exit
                 return -2;
             else
                 ;
-            bool found = false;
-            int found_index = -1;
-            for (int i = 0; i < vect.size(); i++)
+
+            bool found = false;   // if the product is found
+            int found_index = -1; // the index of wanted product
+
+            for (int i = 0; i < vect.size(); i++) // Find product in vector
             {
                 if (vect[i].get_id() == input)
                 {
@@ -280,27 +345,30 @@ int find_prod_by_id(vector<Product> &vect, string action)
                     break;
                 }
             }
-            if (!found)
+
+            if (!found) // the product cannot be found
             {
                 cout << "Product not Found\n";
-                return -1;
+                return -1; // Failure
             }
             else
                 ;
-            if (action == "show")
+
+            // Acts based on action
+            if (action == "show") // display product's informations
             {
                 vect[found_index].show_prod();
-                return 1;
+                return 1; // Successful
             }
-            else if (action == "delete")
+            else if (action == "delete") // delete prodcut's information
             {
                 cout << "Product profile with ID " << vect[found_index].get_id() << " is deleted.\n";
                 vect.erase(vect.begin() + found_index);
-                return 1;
+                return 1; // Successful
             }
-            else if (action == "check")
+            else if (action == "check") // find the product's index in vector
             {
-                return found_index;
+                return found_index; // Successful
             }
             else
                 ;
@@ -315,98 +383,119 @@ int find_prod_by_id(vector<Product> &vect, string action)
     }
 }
 
+// ******************************************************************************
+// Function Name:   cust_registration()
+// Parameter:       customer vector
+// Return:          N/A
+// Description:     Function used to add new customer
+// ******************************************************************************
 void cust_registration(vector<Customer> &vect)
 {
-    bool valid;
+    bool valid; // to check the state of various functions used below
+
     // username
     string username;
     valid = input_username(username, vect);
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
+
     // firstname
     string firstname;
     valid = input_name(firstname, "first");
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
+
     // lastname
     string lastname;
     valid = input_name(lastname, "last");
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
+
     // dob
     string dob;
     valid = input_dob(dob);
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
+
     // credit card num
     string cred_num;
     valid = input_cred_num(cred_num, vect);
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
+
     // ID
     string s_id;
-    if (vect.size() >= 1)
+    if (vect.size() >= 1) // Previous ID exist
     {
         s_id = id_generator(vect[vect.size() - 1].get_id(), "CID", 10);
     }
-    else
+    else // No previous ID exist
     {
         s_id = id_generator("-1", "CID", 10);
     }
-    if (s_id == "-1")
+    if (s_id == "-1") // Failure
     {
         return;
     }
     else
         ;
+
     // reward point
     float point;
     valid = input_reward_point(point);
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
+
     // cout << "username: " << username << "\tfirst name: " << firstname << "\tlast name: " << lastname << "\tdob: " << dob << "\tcred_num: " << cred_num << "\tid: " << s_id << "\tpoint: " << point << endl;
-    Customer cust(s_id, username, firstname, lastname, dob, cred_num, point);
-    vect.push_back(cust);
+    Customer cust(s_id, username, firstname, lastname, dob, cred_num, point); // Customer object
+    vect.push_back(cust);                                                     // insert to vector
 }
 
+// ******************************************************************************
+// Function Name:   prod_registration()
+// Parameter:       product vector
+// Return:          N/A
+// Description:     Function used to add new product
+// ******************************************************************************
 void prod_registration(vector<Product> &vect)
 {
-    bool valid;
+    bool valid; // to check the state of various functions used below
+
     // ID
     string s_id;
-    if (vect.size() >= 1)
+    if (vect.size() >= 1) // Previous ID exist
     {
         s_id = id_generator(vect[vect.size() - 1].get_id(), "P", 5);
     }
-    else
+    else // No previous ID exist
     {
         s_id = id_generator("-1", "P", 5);
     }
-    if (s_id == "-1")
+    if (s_id == "-1") // Failure
     {
         return;
     }
@@ -416,33 +505,35 @@ void prod_registration(vector<Product> &vect)
     // Name
     string description;
     valid = input_prod_description(description);
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
+
     // Price
     float price;
     valid = input_prod_price(price);
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
+
     // Amount in stock
     int in_stock;
     valid = input_prod_stock(in_stock);
-    if (!valid)
+    if (!valid) // Failure
     {
         return;
     }
-    else
+    else // Success
         ;
 
-    Product prod(s_id, description, price, in_stock);
-    vect.push_back(prod);
+    Product prod(s_id, description, price, in_stock); // Product object
+    vect.push_back(prod);                             // insert to vector
 }
 
 // int input_prod_stock(int &in_stock)
@@ -939,34 +1030,52 @@ void prod_registration(vector<Product> &vect)
 //     }
 // }
 
+// ******************************************************************************
+// Function Name:   change_reward_ratio()
+// Parameter:       general file name, reward and redeem ratio, current max redeem transaction ID (max_rtid)
+// Return:          N/A
+// Description:     Function used to change the ratio from USD to points when customer shop
+// ******************************************************************************
 void change_reward_ratio(string gen_file, float &reward_ratio, float redeem_ratio, int max_rtid)
 {
-    cout << "Current reward ratio is " << reward_ratio << endl;
-    float temp;
-    temp = input_ratio("reward");
-    if (temp != -1)
+    cout << "Current reward ratio is " << reward_ratio << endl; // Display current ratio
+    float temp;                                                 // temporary variable
+    temp = input_ratio("reward");                               // get input from the user
+    if (temp != -1)                                             // Valid input
     {
-        reward_ratio = temp;
-        save_general(gen_file, reward_ratio, redeem_ratio, max_rtid);
+        reward_ratio = temp;                                          // Change reward ratio
+        save_general(gen_file, reward_ratio, redeem_ratio, max_rtid); // Save to file
     }
-    else
+    else // Invalid input
         ;
 }
 
+// ******************************************************************************
+// Function Name:   change_redeem_ratio()
+// Parameter:       general file name, reward and redeem ratio, current max redeem transaction ID (max_rtid)
+// Return:          N/A
+// Description:     Function used to change the ratio from points to USD when customer redeem
+// ******************************************************************************
 void change_redeem_ratio(string gen_file, float reward_ratio, float &redeem_ratio, int max_rtid)
 {
-    cout << "Current redeem ratio is " << redeem_ratio << endl;
-    float temp;
-    temp = input_ratio("redeem");
-    if (temp != -1)
+    cout << "Current redeem ratio is " << redeem_ratio << endl; // Display current ratio
+    float temp;                                                 // temporary variable
+    temp = input_ratio("redeem");                               // get input from the user
+    if (temp != -1)                                             // Valid input
     {
-        redeem_ratio = temp;
-        save_general(gen_file, reward_ratio, redeem_ratio, max_rtid);
+        redeem_ratio = temp;                                          // Change redeem ratio
+        save_general(gen_file, reward_ratio, redeem_ratio, max_rtid); // Save to file
     }
     else
         ;
 }
 
+// ******************************************************************************
+// Function Name:   save_general()
+// Parameter:       general file name, reward and redeem ratio, current max redeem transaction ID (max_rtid)
+// Return:          N/A
+// Description:     Function used to save the data to the general txt file
+// ******************************************************************************
 void save_general(string file_name, float reward_ratio, float redeem_ratio, int max_rtid)
 {
     ofstream file;
@@ -978,6 +1087,13 @@ void save_general(string file_name, float reward_ratio, float redeem_ratio, int 
 
     file.close();
 }
+
+// ******************************************************************************
+// Function Name:   save_shopping_config()
+// Parameter:       config file name, current max shopping transaction ID (max_tid)
+// Return:          N/A
+// Description:     Function used to save the data to the config txt file
+// ******************************************************************************
 void save_shopping_config(string config_file, int max_tid)
 {
     ofstream file;
@@ -988,6 +1104,12 @@ void save_shopping_config(string config_file, int max_tid)
     file.close();
 }
 
+// ******************************************************************************
+// Function Name:   get_general()
+// Parameter:       general file name, reward and redeem ratio, current max redeem transaction ID (max_rtid)
+// Return:          N/A
+// Description:     Function used to load data from the general txt file
+// ******************************************************************************
 void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid)
 {
     string line;
@@ -995,12 +1117,14 @@ void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int
     ifstream file;
     file.open(file_name);
 
-    if (!file)
+    if (!file) // File does not exist
     {
         cout << "Creating general save file...\n";
         // Create run_log
         ofstream new_file;
+        // Create new file
         new_file.open(file_name);
+        // Set the default values
         cout << "Saving the reward ratio as 1...\n";
         new_file << "Reward Ratio 1" << endl;
         cout << "Saving the redeem ratio as 0.1...\n";
@@ -1024,6 +1148,12 @@ void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int
     max_rtid = stof(parse_line(line));
 }
 
+// ******************************************************************************
+// Function Name:   get_shopping_config()
+// Parameter:       config name, current max shopping transaction ID (max_stid)
+// Return:          N/A
+// Description:     Function used to load data from the config txt file
+// ******************************************************************************
 void get_shopping_config(int &max_stid, string file_name)
 {
     string line;
@@ -1031,12 +1161,14 @@ void get_shopping_config(int &max_stid, string file_name)
     ifstream file;
     file.open(file_name);
 
-    if (!file)
+    if (!file) // File does not exist
     {
         cout << "Creating shopping save file...\n";
         // Create run_log
         ofstream new_file;
+        // Create new file
         new_file.open(file_name);
+        // Set the default values
         cout << "Saving the max shopping Transaction ID as 0...\n";
         new_file << "Max RTID 0" << endl;
         new_file.close();
@@ -1049,31 +1181,43 @@ void get_shopping_config(int &max_stid, string file_name)
     getline(file, line);
     max_stid = stof(parse_line(line));
 }
+
+// ******************************************************************************
+// Function Name:   redeem_prod()
+// Parameter:       product vector, customer vector, redeem ratio,
+//                  general and redeem transaction file name, current max redeem transaction ID (max_rtid)
+// Return:          N/A
+// Description:     Function used to allow the user to redeem reward and keep track of it
+// ******************************************************************************
 void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid)
 {
     string input;
-    int cust_index;
-    cust_index = find_cust_by_id(cust_vect, "check");
-    if (cust_index == -1)
+    int cust_index; // customer index in the vector
+
+    cout << "Please log in to redeem or exit: \n";
+    cust_index = find_cust_by_id(cust_vect, "check"); // get the customer's index if they are in the vector
+    if (cust_index == -1)                             // Not found customer or user typed "exit"
     {
         return;
     }
     else
         ;
+
     cout << "Hello, " << cust_vect[cust_index].get_fname() << " " << cust_vect[cust_index].get_lname() << ".\n";
     cout << fixed << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n";
 
-    string pid;
-    int prod_index, state;
+    int prod_index, // product index in vector
+        state;      // output state for redeem_transaction
 
     while (1)
     {
+        // Redeem transaction
         state = redeem_transaction(prod_vect, cust_vect, prod_index, cust_index, redeem_ratio, gen_file, r_transact_file, max_rtid);
-        if (state == -2)
+        if (state == -2) // user WANT to exit
         {
             return;
         }
-        else if (state == -1)
+        else if (state == -1) // invalid product or successful transaction. Either way, initiate a new transaction
         {
             continue;
         }
@@ -1082,28 +1226,43 @@ void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float 
     }
 }
 
+// ******************************************************************************
+// Function Name:   redeem_transaction()
+// Parameter:       product vector, customer vector, redeem ratio, product and customer index
+//                  general and redeem transaction file name, current max redeem transaction ID (max_rtid)
+// Return:          N/A
+// Description:     Function used to allow the user to perform ONE transaction to redeem ONE product
+// ******************************************************************************
 int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, int &prod_index, int &cust_index, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid)
 {
+    // Display products
     cout << "Available Products: \n\n";
     display_redeem_product(prod_vect, redeem_ratio);
+
+    // Display current reward points
     cout << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n";
+
+    // Ask user for a product using product ID
     prod_index = find_prod_by_id(prod_vect, "check");
-    if (prod_index == -2)
+
+    if (prod_index == -2) // user WANT to exit
     {
         return -2;
     }
-    else if (prod_index == -1)
+    else if (prod_index == -1) // product cannot be found
     {
         return -1;
     }
     else
         ;
 
+    // Out of stock
     if (prod_vect[prod_index].get_count() == 0)
     {
         cout << "No item left in stock. Please try another product.\n";
         return -1;
     }
+    // Product's value in points is bigger than the customer's remaining points
     else if (prod_vect[prod_index].get_price() / redeem_ratio > cust_vect[cust_index].get_point())
     {
         cout << "You do not have enough points to redeem this product.\n";
@@ -1112,17 +1271,30 @@ int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, 
     else
         ;
 
+    // Update item count in stock
     prod_vect[prod_index].set_count(prod_vect[prod_index].get_count() - 1);
+    // Update customer's reward point
     cust_vect[cust_index].set_point(cust_vect[cust_index].get_point() - prod_vect[prod_index].get_price() / redeem_ratio);
+    // Confirm transaction
     cout << "You have redeem 1 " << prod_vect[prod_index].get_name() << ". Your new number of reward point is " << cust_vect[cust_index].get_point() << ".\n";
+    // Save to log file
     append_to_r_transact(r_transact_file, max_rtid, cust_vect[cust_index].get_id(), prod_vect[prod_index].get_id(), prod_vect[prod_index].get_price(), prod_vect[prod_index].get_price() / redeem_ratio);
-    max_rtid++;
+    max_rtid++; // Increment max redeem transaction ID
+
+    // Save new max redeem transaction ID
     float rw_ratio, rd_ratio;
     get_general(gen_file, rw_ratio, rd_ratio, max_rtid);
     save_general(gen_file, rw_ratio, rd_ratio, max_rtid);
-    return -1;
+
+    return -1; // Successful transaction
 }
 
+// ******************************************************************************
+// Function Name:   display_redeem_product()
+// Parameter:       product vector, redeem ratio
+// Return:          N/A
+// Description:     Function used to display the product and their price in points for redeem
+// ******************************************************************************
 void display_redeem_product(vector<Product> &prod_vect, float redeem_ratio)
 {
     for (int i = 0; i < prod_vect.size(); i++)
@@ -1134,6 +1306,12 @@ void display_redeem_product(vector<Product> &prod_vect, float redeem_ratio)
     }
 }
 
+// ******************************************************************************
+// Function Name:   display_shop_product()
+// Parameter:       product vector
+// Return:          N/A
+// Description:     Function used to display the product and their price in USD for shopping
+// ******************************************************************************
 void display_shop_product(vector<Product> &prod_vect)
 {
     for (int i = 0; i < prod_vect.size(); i++)
@@ -1145,13 +1323,20 @@ void display_shop_product(vector<Product> &prod_vect)
     }
 }
 
+// ******************************************************************************
+// Function Name:   append_to_r_transact()
+// Parameter:       redeem transaction file name, max redeem transaction ID,
+//                  customer ID, product ID, product price in USD and point
+// Return:          N/A
+// Description:     Function used to save the record of a redeem transaction to a redeem transaction log file
+// ******************************************************************************
 void append_to_r_transact(string file_name, int &max_tid, string cust_id, string prod_id, float prod_price, float prod_point)
 {
     ofstream file;
 
-    file.open(file_name, ios_base::app);
+    file.open(file_name, ios_base::app); // Append to file
 
-    if (!file)
+    if (!file) // File does not exist
     {
         cout << "Creating Redeem Transaction save file...\n";
         // Create run_log
@@ -1160,12 +1345,11 @@ void append_to_r_transact(string file_name, int &max_tid, string cust_id, string
         new_file.close();
     }
 
-    if (max_tid == 0)
+    if (max_tid == 0) // no previous ID exist
     {
         file << "Transaction ID " << id_generator("T0000000000", "T", 10) << endl;
-        ;
     }
-    else
+    else // previous ID exist
     {
         string s_id = to_string(max_tid);
         int init_id_size = s_id.size();
@@ -1185,53 +1369,63 @@ void append_to_r_transact(string file_name, int &max_tid, string cust_id, string
     file.close();
 }
 
+// ******************************************************************************
+// Function Name:   shop_prod()
+// Parameter:       product vector, customer vector, reward ratio,
+//                  config and shopping transaction file name, current max shopping transaction ID (max_stid)
+// Return:          N/A
+// Description:     Function used to allow the user to shop multiple products
+// ******************************************************************************
 void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float reward_ratio, int &max_tid, string config_file, string file_name)
 {
+
     cout << "Please log in to shop or exit\n";
 
-    int cust_index = find_cust_by_id(cust_vect, "check");
+    int cust_index = find_cust_by_id(cust_vect, "check"); // get the customer's index if they are in the vector
 
-    if (cust_index == -1)
+    if (cust_index == -1) // Not found customer or user typed "exit"
         return;
     cout << "\nHello, " << cust_vect[cust_index].get_fname() << " " << cust_vect[cust_index].get_lname() << ".\n";
 
     map<int, int> shop_cart;
-    print_cart(shop_cart, prod_vect);
+    print_cart(shop_cart, prod_vect); // Display current shopping cart
 
-    cout << "Below is the list of availabe product\n\n";
-    display_shop_product(prod_vect);
+    cout << "Below is the list of available product\n\n";
+    display_shop_product(prod_vect); // Display products
 
     while (1)
     {
         int state = add_to_cart(shop_cart, prod_vect);
-        if (state == -2)
+        if (state == -2) // User WANT to exit
             break;
-        else if (state == -1)
+        else if (state == -1) // invalid product or successful shopping. Either way, ask again
             continue;
 
         cout << "\nYour current cart\n";
-        print_cart(shop_cart, prod_vect);
+        print_cart(shop_cart, prod_vect); // Display current shopping cart
     }
 
     // CHECK OUT
     string input;
     while (1)
     {
-        float sub_total = print_cart(shop_cart, prod_vect);
-        cout << "Your total is: " << sub_total << endl;
-        cout << "Points received: " << sub_total * reward_ratio << endl;
+        float sub_total = print_cart(shop_cart, prod_vect);              // Display current shopping cart
+        cout << "Your total is: " << sub_total << endl;                  // Total price of the cart
+        cout << "Points received: " << sub_total * reward_ratio << endl; // Total reward points received if proceed
 
         cout << "Checkout ?(y/n): ";
         if (cin >> input)
         {
-            if (input == "y")
+            if (input == "y") // Confirm checkout
             {
-                float total = 0;
-                for (auto pair : shop_cart)
+                float total = 0; // Total price
+
+                for (auto pair : shop_cart) // For every item in cart
                 {
                     // set new cout
                     int new_count = prod_vect[pair.first].get_count() - pair.second;
                     prod_vect[pair.first].set_count(new_count);
+                    // Calculate total price
                     total += prod_vect[pair.first].get_price() * pair.second;
                 }
                 // add reward to cust
@@ -1247,7 +1441,7 @@ void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float re
                                      reward_ratio);
                 break;
             }
-            else if (input == "n")
+            else if (input == "n") // Discard cart
             {
                 cout << "Cart deleted\n";
                 return;
@@ -1258,36 +1452,44 @@ void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float re
     }
 }
 
+// ******************************************************************************
+// Function Name:   add_to_cart()
+// Parameter:       shop cart, product vector
+// Return:          -2 if user want to exit, -1 if user want to choose different product
+// Description:     Function used to allow the user to shop multiple items of ONE product
+// ******************************************************************************
 int add_to_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
 {
     int prod_index;
     while (1)
     {
         cout << "Enter exit to continue to check out\n";
-        prod_index = find_prod_by_id(prod_vect, "check");
-        if (prod_index == -2) // exit
+        prod_index = find_prod_by_id(prod_vect, "check"); // Find product by id
+        if (prod_index == -2)                             // user WANT to exit
         {
             return -2;
         }
-        else if (prod_index == -1) // not found
+        else if (prod_index == -1) // product not found
         {
             continue;
         }
         else
             break;
     }
+
     int prod_count;
     int input;
     while (1)
     {
-        cout << "Please enter amount:";
+        cout << "Please enter amount, -2 to exit to main menu, or -1 to choose a different product:";
         if (cin >> input)
         {
-            if (input == -2) // exit
+            if (input == -2) // user WANT to exit
                 return -2;
             else if (input == -1) // choose different product
                 return -1;
-            if ((input > 0) and (input <= prod_vect[prod_index].get_count()))
+            // Amount is bigger than 0 and smaller than the amount of items left in stock
+            if ((input > 0) && (input <= prod_vect[prod_index].get_count()))
             {
                 prod_count = input;
                 // insert to cart
@@ -1303,16 +1505,22 @@ int add_to_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
             }
             else
             {
-                cout << "Invalid ammount\n";
+                cout << "Invalid ammount.\n";
                 continue;
             }
         }
     }
 }
 
+// ******************************************************************************
+// Function Name:   print_cart()
+// Parameter:       shop cart, product vector
+// Return:          the total price of items in cart
+// Description:     Function used to display the current shopping cart
+// ******************************************************************************
 float print_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
 {
-    float total = 0;
+    float total = 0; // Total price of items in cart
     cout << endl;
     for (auto pair : shop_cart)
     {
@@ -1323,11 +1531,19 @@ float print_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
     return total;
 }
 
+// ******************************************************************************
+// Function Name:   append_to_s_transact()
+// Parameter:       shopping transaction and config file name, max shopping transaction ID,
+//                  shopping cart, the customer, product vector, reward ratio
+// Return:          N/A
+// Description:     Function used to save the record of a shopping transaction to a shopping transaction log file
+// ******************************************************************************
 void append_to_s_transact(string config_file, string file_name, int max_tid, map<int, int> &shop_cart, Customer cust, vector<Product> vect, float reward_ratio)
 {
     ofstream file;
-    file.open(file_name, ios_base::app);
-    if (!file)
+    file.open(file_name, ios_base::app); // Append to file
+
+    if (!file) // File does not exist
     {
         cout << "Creating Shopping Transaction save file...\n";
         // Create run_log
@@ -1336,11 +1552,11 @@ void append_to_s_transact(string config_file, string file_name, int max_tid, map
         new_file.close();
     }
 
-    if (max_tid == 0)
+    if (max_tid == 0) // no previous ID exist
     {
         file << "Transaction ID " << id_generator("S0000000000", "S", 10) << endl;
     }
-    else
+    else // previous ID exist
     {
         string s_id = to_string(max_tid);
         int init_id_size = s_id.size();
@@ -1353,6 +1569,7 @@ void append_to_s_transact(string config_file, string file_name, int max_tid, map
     }
     file << "Customer ID " << cust.get_id() << endl;
 
+    // Print cart
     float total;
     for (map<int, int>::iterator it = shop_cart.begin(); it != shop_cart.end(); ++it)
     {
