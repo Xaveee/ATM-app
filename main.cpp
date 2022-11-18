@@ -11,6 +11,7 @@ using namespace std;
 
 int main()
 {
+    // FILE NAMES
     string cust_file = "customers.txt";
     string prod_file = "products.txt";
     string gen_file = "general.txt";
@@ -62,7 +63,7 @@ int main()
             write_to_cust(cust_file, cust_vect);
             break;
         case 3:
-            cin.ignore();
+            cin.ignore(); // cin weird behavior. DO NOT DELETE.
             prod_registration(prod_vect);
             write_to_prod(prod_file, prod_vect);
             break;

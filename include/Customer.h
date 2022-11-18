@@ -5,6 +5,16 @@
 
 using namespace std;
 
+//***************************************************************
+// Customer class
+// Contains data of one customer, including:
+//      - ID (unique)
+//      - Username (unique)
+//      - First and last name
+//      - Date of birth
+//      - Credit card number (unique)
+//      - Reward point
+//***************************************************************
 class Customer
 {
 private:

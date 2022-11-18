@@ -5,6 +5,14 @@
 
 using namespace std;
 
+//***************************************************************
+// Product class
+// Contains data of one product, including:
+//      - ID (unique)
+//      - Description
+//      - Price
+//      - Number of items left in stock
+//***************************************************************
 class Product
 {
 private:
