@@ -17,6 +17,8 @@ using namespace std;
 // Parameter:       a string containing multiple words separated by spaces
 // Return:          the last word in the string
 // Description:     Function used to get the actual data from lines in text files
+// Statements:      3
+// CC:              1
 // ******************************************************************************
 string parse_line(string line)
 {
@@ -32,6 +34,8 @@ string parse_line(string line)
 //                  and the number of digits after the header
 // Return:          the next unique ID
 // Description:     Function used to generate ID for customer, product, transactions
+// Statements:      12
+// CC:              4
 // ******************************************************************************
 string id_generator(string max_id, string header, int body_length)
 {
@@ -69,6 +73,8 @@ string id_generator(string max_id, string header, int body_length)
 // Parameter:       customer file name, customer vector
 // Return:          N/A
 // Description:     Function used to load the data from the customer txt file to the vector
+// Statements:      28
+// CC:              4
 // ******************************************************************************
 void read_cust_to_vect(string file_name, vector<Customer> &vect)
 {
@@ -137,6 +143,8 @@ void read_cust_to_vect(string file_name, vector<Customer> &vect)
 // Parameter:       customer file name, customer vector
 // Return:          N/A
 // Description:     Function used to save the data to customer txt file
+// Statements:      12
+// CC:              3
 // ******************************************************************************
 void write_to_cust(string file_name, vector<Customer> vect)
 {
@@ -168,6 +176,8 @@ void write_to_cust(string file_name, vector<Customer> vect)
 // Parameter:       product file name, product vector
 // Return:          N/A
 // Description:     Function used to load the data from the product txt file to the vector
+// Statements:      22
+// CC:              4
 // ******************************************************************************
 void read_prod_to_vect(string file_name, vector<Product> &vect)
 {
@@ -223,6 +233,8 @@ void read_prod_to_vect(string file_name, vector<Product> &vect)
 // Parameter:       product file name, product vector
 // Return:          N/A
 // Description:     Function used to save the data to product txt file
+// Statements:      11
+// CC:              3
 // ******************************************************************************
 void write_to_prod(string file_name, vector<Product> vect)
 {
@@ -254,6 +266,8 @@ void write_to_prod(string file_name, vector<Product> vect)
 //                  and the customer can be found, the customer's index if
 //                  action is "check" and the customer can be found
 // Description:     Function used to find a customer using ID and either show, delete or check their index
+// Statements:      25
+// CC:              10
 // ******************************************************************************
 int find_cust_by_id(vector<Customer> &vect, string action)
 {
@@ -328,6 +342,8 @@ int find_cust_by_id(vector<Customer> &vect, string action)
 //                  1 if action is "show" or "delete" and the product can be found,
 //                  the product's index if action is "check" and the product can be found
 // Description:     Function used to find a product using ID and either show, delete or check its index
+// Statements:      25
+// CC:              10
 // ******************************************************************************
 int find_prod_by_id(vector<Product> &vect, string action)
 {
@@ -400,6 +416,8 @@ int find_prod_by_id(vector<Product> &vect, string action)
 // Parameter:       customer vector
 // Return:          N/A
 // Description:     Function used to add new customer
+// Statements:      34
+// CC:              1
 // ******************************************************************************
 void cust_registration(vector<Customer> &vect)
 {
@@ -493,6 +511,8 @@ void cust_registration(vector<Customer> &vect)
 // Parameter:       product vector
 // Return:          N/A
 // Description:     Function used to add new product
+// Statements:      20
+// CC:              1
 // ******************************************************************************
 void prod_registration(vector<Product> &vect)
 {
@@ -554,6 +574,8 @@ void prod_registration(vector<Product> &vect)
 // Parameter:       general file name, reward and redeem ratio, current max redeem transaction ID (max_rtid)
 // Return:          N/A
 // Description:     Function used to change the ratio from USD to points when customer shop
+// Statements:      6
+// CC:              1
 // ******************************************************************************
 void change_reward_ratio(string gen_file, float &reward_ratio, float redeem_ratio, int max_rtid)
 {
@@ -574,6 +596,8 @@ void change_reward_ratio(string gen_file, float &reward_ratio, float redeem_rati
 // Parameter:       general file name, reward and redeem ratio, current max redeem transaction ID (max_rtid)
 // Return:          N/A
 // Description:     Function used to change the ratio from points to USD when customer redeem
+// Statements:      6
+// CC:              1
 // ******************************************************************************
 void change_redeem_ratio(string gen_file, float reward_ratio, float &redeem_ratio, int max_rtid)
 {
@@ -594,6 +618,8 @@ void change_redeem_ratio(string gen_file, float reward_ratio, float &redeem_rati
 // Parameter:       general file name, reward and redeem ratio, current max redeem transaction ID (max_rtid)
 // Return:          N/A
 // Description:     Function used to save the data to the general txt file
+// Statements:      6
+// CC:              1
 // ******************************************************************************
 void save_general(string file_name, float reward_ratio, float redeem_ratio, int max_rtid)
 {
@@ -612,6 +638,8 @@ void save_general(string file_name, float reward_ratio, float redeem_ratio, int 
 // Parameter:       config file name, current max shopping transaction ID (max_tid)
 // Return:          N/A
 // Description:     Function used to save the data to the config txt file
+// Statements:      4
+// CC:              1
 // ******************************************************************************
 void save_shopping_config(string config_file, int max_tid)
 {
@@ -628,6 +656,8 @@ void save_shopping_config(string config_file, int max_tid)
 // Parameter:       general file name, reward and redeem ratio, current max redeem transaction ID (max_rtid)
 // Return:          N/A
 // Description:     Function used to load data from the general txt file
+// Statements:      24
+// CC:              1
 // ******************************************************************************
 void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid)
 {
@@ -672,6 +702,8 @@ void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int
 // Parameter:       config name, current max shopping transaction ID (max_stid)
 // Return:          N/A
 // Description:     Function used to load data from the config txt file
+// Statements:      14
+// CC:              1
 // ******************************************************************************
 void get_shopping_config(int &max_stid, string file_name)
 {
@@ -707,6 +739,8 @@ void get_shopping_config(int &max_stid, string file_name)
 //                  general and redeem transaction file name, current max redeem transaction ID (max_rtid)
 // Return:          N/A
 // Description:     Function used to allow the user to redeem reward and keep track of it
+// Statements:      13
+// CC:              3
 // ******************************************************************************
 void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid)
 {
@@ -751,6 +785,8 @@ void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float 
 //                  general and redeem transaction file name, current max redeem transaction ID (max_rtid)
 // Return:          N/A
 // Description:     Function used to allow the user to perform ONE transaction to redeem ONE product
+// Statements:      21
+// CC:              1
 // ******************************************************************************
 int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, int &prod_index, int &cust_index, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid)
 {
@@ -813,6 +849,8 @@ int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, 
 // Parameter:       product vector, redeem ratio
 // Return:          N/A
 // Description:     Function used to display the product and their price in points for redeem
+// Statements:      4
+// CC:              3
 // ******************************************************************************
 void display_redeem_product(vector<Product> &prod_vect, float redeem_ratio)
 {
@@ -830,6 +868,8 @@ void display_redeem_product(vector<Product> &prod_vect, float redeem_ratio)
 // Parameter:       product vector
 // Return:          N/A
 // Description:     Function used to display the product and their price in USD for shopping
+// Statements:      4
+// CC:              3
 // ******************************************************************************
 void display_shop_product(vector<Product> &prod_vect)
 {
@@ -848,6 +888,8 @@ void display_shop_product(vector<Product> &prod_vect)
 //                  customer ID, product ID, product price in USD and point
 // Return:          N/A
 // Description:     Function used to save the record of a redeem transaction to a redeem transaction log file
+// Statements:      20
+// CC:              5
 // ******************************************************************************
 void append_to_r_transact(string file_name, int &max_tid, string cust_id, string prod_id, float prod_price, float prod_point)
 {
@@ -896,6 +938,8 @@ void append_to_r_transact(string file_name, int &max_tid, string cust_id, string
 //                  config and shopping transaction file name, current max shopping transaction ID (max_stid)
 // Return:          N/A
 // Description:     Function used to allow the user to shop multiple products
+// Statements:      32
+// CC:              10
 // ******************************************************************************
 void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float reward_ratio, int &max_tid, string config_file, string file_name)
 {
@@ -983,6 +1027,8 @@ void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float re
 // Parameter:       shop cart, product vector
 // Return:          -2 if user want to exit, -1 if user want to choose different product
 // Description:     Function used to allow the user to shop multiple items of ONE product
+// Statements:      24
+// CC:              7
 // ******************************************************************************
 int add_to_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
 {
@@ -1014,6 +1060,7 @@ int add_to_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
                 return -2;
             else if (input == -1) // choose different product
                 return -1;
+            else;
             // Amount is bigger than 0 and smaller than the amount of items left in stock
             if ((input > 0) && (input <= prod_vect[prod_index].get_count()))
             {
@@ -1046,6 +1093,8 @@ int add_to_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
 // Parameter:       shop cart, product vector
 // Return:          the total price of items in cart
 // Description:     Function used to display the current shopping cart
+// Statements:      6
+// CC:              3
 // ******************************************************************************
 float print_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
 {
@@ -1066,6 +1115,8 @@ float print_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
 //                  shopping cart, the customer, product vector, reward ratio
 // Return:          N/A
 // Description:     Function used to save the record of a shopping transaction to a shopping transaction log file
+// Statements:      27
+// CC:              9
 // ******************************************************************************
 void append_to_s_transact(string config_file, string file_name, int max_tid, map<int, int> &shop_cart, Customer cust, vector<Product> vect, float reward_ratio)
 {

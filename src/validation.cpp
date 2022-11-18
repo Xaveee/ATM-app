@@ -7,6 +7,8 @@
 // Parameter:       the number of items left in stock of a product
 // Return:          1 if success, 0 if exit
 // Description:     Function used to get the item in stock when a new product is created
+// Statements:      12
+// CC:              3
 // ******************************************************************************
 int input_prod_stock(int &in_stock)
 {
@@ -45,6 +47,8 @@ int input_prod_stock(int &in_stock)
 // Parameter:       the product's price
 // Return:          1 if success, 0 if exit
 // Description:     Function used to get the price when a new product is created
+// Statements:      12
+// CC:              3
 // ******************************************************************************
 int input_prod_price(float &price)
 {
@@ -83,6 +87,8 @@ int input_prod_price(float &price)
 // Parameter:       a product's description
 // Return:          1 if success, 0 if exit
 // Description:     Function used to get the description when a new product is created
+// Statements:      10
+// CC:              2
 // ******************************************************************************
 int input_prod_description(string &description)
 {
@@ -115,6 +121,8 @@ int input_prod_description(string &description)
 // Parameter:       a customer's username, customer vector
 // Return:          1 if success, 0 if exit
 // Description:     Function used to get the username when a customer is added
+// Statements:      30
+// CC:              10
 // ******************************************************************************
 int input_username(string &username, vector<Customer> vect)
 {
@@ -201,6 +209,8 @@ int input_username(string &username, vector<Customer> vect)
 // Parameter:       a customer's first/last name, type "first" or "last"
 // Return:          1 if success, 0 if exit
 // Description:     Function used to get the names when a customer is added
+// Statements:      14
+// CC:              4
 // ******************************************************************************
 int input_name(string &name, string type)
 {
@@ -284,6 +294,8 @@ int input_year()
 // Parameter:       N/A
 // Return:          month if success, -1 if exit
 // Description:     Function used to get the month of birth of a customer
+// Statements:      12
+// CC:              3
 // ******************************************************************************
 int input_month()
 {
@@ -322,6 +334,8 @@ int input_month()
 // Parameter:       maximum day in that month
 // Return:          day if success, -1 if exit
 // Description:     Function used to get the day of birth of a customer
+// Statements:      15
+// CC:              4
 // ******************************************************************************
 int input_day(int day_max)
 {
@@ -369,6 +383,8 @@ int input_day(int day_max)
 // Parameter:       month and year of birth
 // Return:          maximum day of that month
 // Description:     Function used to get the maximum day of a month
+// Statements:      13
+// CC:              9
 // ******************************************************************************
 int get_day_max(int month, int year)
 {
@@ -424,6 +440,8 @@ int get_day_max(int month, int year)
 // Parameter:       year, month, day of birth
 // Return:          dob in format "MM-DD-YYYY"
 // Description:     Function used to convert the dob of a customer to string form
+// Statements:      12
+// CC:              5
 // ******************************************************************************
 string dob_to_string(int year, int month, int day)
 {
@@ -521,6 +539,8 @@ int input_dob(string &dob)
 // Parameter:       a customer's credit card number, customer vector
 // Return:          1 if success, 0 if exit
 // Description:     Function used to get the credit card number when a customer is added
+// Statements:      15
+// CC:              8
 // ******************************************************************************
 int input_cred_num(string &cred_num, vector<Customer> vect)
 {
@@ -592,6 +612,8 @@ int input_cred_num(string &cred_num, vector<Customer> vect)
 // Parameter:       a customer's initial reward point
 // Return:          1 if success, 0 if exit
 // Description:     Function used to get the initial reward point when a customer is added
+// Statements:      12
+// CC:              3
 // ******************************************************************************
 int input_reward_point(float &point)
 {
@@ -630,6 +652,8 @@ int input_reward_point(float &point)
 // Parameter:       type of ratio "reward" or "redeem"
 // Return:          the ratio
 // Description:     Function used to get the ratio from shop manager
+// Statements:      14
+// CC:              4
 // ******************************************************************************
 float input_ratio(string type)
 {
