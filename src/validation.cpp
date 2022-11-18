@@ -25,6 +25,8 @@ int input_prod_stock(int &in_stock)
                 cout << "Invalid Input. Number of item must be a positive number.\n";
                 continue;
             }
+            else
+                ;
             in_stock = input;
             return 1;
         }
@@ -61,6 +63,8 @@ int input_prod_price(float &price)
                 cout << "Invalid Input. Product price must be a positive number.\n";
                 continue;
             }
+            else
+                ;
             price = input;
             return 1;
         }
@@ -150,9 +154,9 @@ int input_username(string &username, vector<Customer> vect)
                 cout << "Invalid Input. The username must start with at least 8 characters.\n";
                 continue;
             }
-
             else
                 ;
+
             if ((username_num.find_first_not_of("0123456789") != string::npos) || (username_num.size() > 3))
             {
                 cout << "Invalid Input. The username must end with at most 3 numbers.\n";
