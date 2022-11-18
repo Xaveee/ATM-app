@@ -24,6 +24,8 @@ int main()
     vector<Product> prod_vect;
     float reward_ratio, redeem_ratio;
     int max_rtid, max_stid;
+
+    // Preprocessing
     get_general(gen_file, reward_ratio, redeem_ratio, max_rtid);
     get_shopping_config(max_stid, config_file_name);
 

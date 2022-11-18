@@ -9,31 +9,35 @@
 
 using namespace std;
 
+// PREPROCESSING
 void read_cust_to_vect(string file_name, vector<Customer> &vect);
 void write_to_cust(string file_name, vector<Customer> vect);
 void read_prod_to_vect(string file_name, vector<Product> &vect);
 void write_to_prod(string file_name, vector<Product> vect);
+
+void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid);
+void save_general(string file_name, float reward_ratio, float redeem_ratio, int max_rtid);
+void get_shopping_config(int &max_stid, string file_name);
+void save_shopping_config(string config_file, int max_tid);
+
 int find_cust_by_id(vector<Customer> &vect, string action);
 int find_prod_by_id(vector<Product> &vect, string action);
+// string id_generator(string max_id, string header, int body_length);
+
 void cust_registration(vector<Customer> &vect);
 void prod_registration(vector<Product> &vect);
 int input_prod_description(string &description);
 int input_prod_price(float &price);
 int input_prod_stock(int &in_stock);
-string id_generator(string max_id, string header, int body_length);
 int input_username(string &username, vector<Customer> vect);
 int input_name(string &name, string type);
 int input_dob(string &dob);
 int input_cred_num(string &cred_num, vector<Customer> vect);
 int input_reward_point(float &point);
 float input_ratio(string type);
+
 void change_reward_ratio(string gen_file, float &reward_ratio, float redeem_ratio, int max_rtid);
 void change_redeem_ratio(string gen_file, float reward_ratio, float &redeem_ratio, int max_rtid);
-
-void save_general(string file_name, float reward_ratio, float redeem_ratio, int max_rtid);
-void save_shopping_config(string config_file, int max_tid);
-void get_general(string file_name, float &reward_ratio, float &redeem_ratio, int &max_rtid);
-void get_shopping_config(int &max_stid, string file_name);
 
 void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float redeem_ratio, string gen_file, string r_transact_file, int &max_rtid);
 
