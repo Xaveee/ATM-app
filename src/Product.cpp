@@ -5,10 +5,11 @@ using namespace std;
 
 void Product::show_prod()
 {
-    cout << id << endl
-         << name << endl
-         << price << endl
-         << count << endl;
+    cout << "\nProduct ID: " << id << endl
+         << "Product Description: " << name << endl
+         << "Product Price: " << price << endl
+         << "Number of Items Left in Stock: " << count << endl
+         << endl;
 }
 
 string Product::get_id()

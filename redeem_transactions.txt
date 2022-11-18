@@ -46,3 +46,9 @@ Product ID P00006
 Price: $213
 Points deducted: 2130
 
+Transaction ID T0000000002
+Customer ID CID0000000006
+Product ID P00005
+Price: $12
+Points deducted: 120
+

@@ -459,6 +459,7 @@ void cust_registration(vector<Customer> &vect)
     }
     else
         ;
+    cout << "Your customer ID is " << s_id << endl;
 
     // reward point
     float point;
@@ -1203,8 +1204,8 @@ void redeem_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float 
     else
         ;
 
-    cout << "Hello, " << cust_vect[cust_index].get_fname() << " " << cust_vect[cust_index].get_lname() << ".\n";
-    cout << fixed << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n";
+    cout << "\nHello, " << cust_vect[cust_index].get_fname() << " " << cust_vect[cust_index].get_lname() << ".\n";
+    cout << fixed << "Your current number of reward points is " << cust_vect[cust_index].get_point() << ".\n\n";
 
     int prod_index, // product index in vector
         state;      // output state for redeem_transaction
@@ -1276,7 +1277,7 @@ int redeem_transaction(vector<Product> &prod_vect, vector<Customer> &cust_vect, 
     // Update customer's reward point
     cust_vect[cust_index].set_point(cust_vect[cust_index].get_point() - prod_vect[prod_index].get_price() / redeem_ratio);
     // Confirm transaction
-    cout << "You have redeem 1 " << prod_vect[prod_index].get_name() << ". Your new number of reward point is " << cust_vect[cust_index].get_point() << ".\n";
+    cout << "\nYou have redeem 1 " << prod_vect[prod_index].get_name() << ". Your new number of reward point is " << cust_vect[cust_index].get_point() << ".\n\n";
     // Save to log file
     append_to_r_transact(r_transact_file, max_rtid, cust_vect[cust_index].get_id(), prod_vect[prod_index].get_id(), prod_vect[prod_index].get_price(), prod_vect[prod_index].get_price() / redeem_ratio);
     max_rtid++; // Increment max redeem transaction ID
@@ -1400,20 +1401,17 @@ void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float re
             break;
         else if (state == -1) // invalid product or successful shopping. Either way, ask again
             continue;
-
-        cout << "\nYour current cart\n";
-        print_cart(shop_cart, prod_vect); // Display current shopping cart
     }
 
     // CHECK OUT
     string input;
     while (1)
     {
+        cout << "\nYour current cart: \n";
         float sub_total = print_cart(shop_cart, prod_vect);              // Display current shopping cart
-        cout << "Your total is: " << sub_total << endl;                  // Total price of the cart
         cout << "Points received: " << sub_total * reward_ratio << endl; // Total reward points received if proceed
-
         cout << "Checkout ?(y/n): ";
+
         if (cin >> input)
         {
             if (input == "y") // Confirm checkout
@@ -1431,6 +1429,7 @@ void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float re
                 // add reward to cust
                 float new_reward = cust_vect[cust_index].get_point() + total * reward_ratio;
                 cust_vect[cust_index].set_point(new_reward);
+                cout << "Your current reward point is " << new_reward << ". Head over to redeem to redeem gifts!\n\n";
                 // save transaction
                 append_to_s_transact(config_file,
                                      file_name,
@@ -1439,6 +1438,7 @@ void shop_prod(vector<Product> &prod_vect, vector<Customer> &cust_vect, float re
                                      cust_vect[cust_index],
                                      prod_vect,
                                      reward_ratio);
+                cout << "THANK YOU FOR SHOPPING AT DICKINSON'S!\n\n";
                 break;
             }
             else if (input == "n") // Discard cart
@@ -1498,10 +1498,11 @@ int add_to_cart(map<int, int> &shop_cart, vector<Product> &prod_vect)
                     itr->second += prod_count;
                 else
                     shop_cart.insert({prod_index, prod_count});
-
+                cout << "\nYour current cart: \n";
+                print_cart(shop_cart, prod_vect);
                 // int new_count = prod_vect[prod_index].get_count() - prod_count;
                 // prod_vect[prod_index].set_count(new_count);
-                break;
+                return -1;
             }
             else
             {
