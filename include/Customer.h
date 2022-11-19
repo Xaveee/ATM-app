@@ -1,3 +1,9 @@
+// Name
+// Billy Brooks
+// Anh Minh Nhat Doan
+// Huy Huynh
+// Hung Nguyen
+
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
@@ -5,6 +11,16 @@
 
 using namespace std;
 
+//***************************************************************
+// Customer class
+// Contains data of one customer, including:
+//      - ID (unique)
+//      - Username (unique)
+//      - First and last name
+//      - Date of birth
+//      - Credit card number (unique)
+//      - Reward point
+//***************************************************************
 class Customer
 {
 private:
@@ -44,6 +60,7 @@ public:
     string get_dob();
     string get_cred_num();
     float get_point();
+    void set_point(float n_point);
 };
 
 // Customer::~Customer()

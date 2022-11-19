@@ -1,0 +1,12 @@
+Transaction ID S0000000001
+Customer ID CID0000000002
+P00009 21, 
+Total Price 2079
+Point Earned 4781.7
+
+Transaction ID S0000000002
+Customer ID CID0000000007
+P00001 12, P00003 22, 
+Total Price 41514
+Point Earned 95482.2
+

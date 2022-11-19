@@ -1,0 +1,6 @@
+Transaction ID T0000000001
+Customer ID CID0000000004
+Product ID P00005
+Price: $12
+Points deducted: 1200
+

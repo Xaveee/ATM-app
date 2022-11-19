@@ -1,3 +1,9 @@
+// Name
+// Billy Brooks
+// Anh Minh Nhat Doan
+// Huy Huynh
+// Hung Nguyen
+
 #include <iostream>
 
 #include "../include/Product.h"
@@ -5,10 +11,11 @@ using namespace std;
 
 void Product::show_prod()
 {
-    cout << id << endl
-         << name << endl
-         << price << endl
-         << count << endl;
+    cout << "\nProduct ID: " << id << endl
+         << "Product Description: " << name << endl
+         << "Product Price: " << price << endl
+         << "Number of Items Left in Stock: " << count << endl
+         << endl;
 }
 
 string Product::get_id()
@@ -29,4 +36,8 @@ float Product::get_price()
 int Product::get_count()
 {
     return count;
+}
+void Product::set_count(float n_count)
+{
+    count = n_count;
 }

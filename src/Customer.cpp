@@ -1,3 +1,9 @@
+// Name
+// Billy Brooks
+// Anh Minh Nhat Doan
+// Huy Huynh
+// Hung Nguyen
+
 #include <iostream>
 
 #include "../include/Customer.h"
@@ -5,12 +11,13 @@ using namespace std;
 
 void Customer::show_cust()
 {
-    cout << id << endl
-         << username << endl
-         << first_name << endl
-         << last_name << endl
-         << dob << endl
-         << total_points << endl;
+    cout << "\nCustomer ID: " << id << endl
+         << "Customer Username: " << username << endl
+         << "Customer First Name: " << first_name << endl
+         << "Customer Last Name: " << last_name << endl
+         << "Customer Date of Birth: " << dob << endl
+         << "Customer Reward Point: " << fixed << total_points << endl
+         << endl;
 }
 
 string Customer::get_id()
@@ -46,4 +53,9 @@ string Customer::get_cred_num()
 float Customer::get_point()
 {
     return total_points;
+}
+
+void Customer::set_point(float n_point)
+{
+    total_points = n_point;
 }
