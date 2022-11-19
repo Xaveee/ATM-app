@@ -1,3 +1,9 @@
+// Name
+// Billy Brooks
+// Anh Minh Nhat Doan
+// Huy Huynh
+// Hung Nguyen
+
 #ifndef REWARDMANAGEMENT_H
 #define REWARDMANAGEMENT_H
 

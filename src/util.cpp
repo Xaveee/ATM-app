@@ -1,3 +1,9 @@
+// Name
+// Billy Brooks
+// Anh Minh Nhat Doan
+// Huy Huynh
+// Hung Nguyen
+
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -25,7 +31,7 @@ string parse_line(string line)
     int index;
     index = line.find_last_of(" ") + 1;
     // cout << line.substr(index, line.length() - 1) << endl;
-    return line.substr(index, line.length() - 1);
+    return line.substr(index, line.length() - index);
 }
 
 // ******************************************************************************
@@ -104,6 +110,9 @@ void read_cust_to_vect(string file_name, vector<Customer> &vect)
         {
             // cout << line << endl;
             string id = parse_line(line);
+            while ((id.substr(id.size() - 1, 1) == "\n") ||
+                   (id.substr(id.size() - 1, 1) == "\r"))
+                id = id.substr(0, id.size() - 1); // DO NOT REMOVE THIS LINE
             getline(file, line);
 
             string username = parse_line(line);
@@ -209,6 +218,9 @@ void read_prod_to_vect(string file_name, vector<Product> &vect)
         {
             // cout << line << endl;
             string id = parse_line(line);
+            while ((id.substr(id.size() - 1, 1) == "\n") ||
+                   (id.substr(id.size() - 1, 1) == "\r"))
+                id = id.substr(0, id.size() - 1); // DO NOT REMOVE THIS LINE
             getline(file, line);
 
             for (int i = 0; i < 2; i++)
