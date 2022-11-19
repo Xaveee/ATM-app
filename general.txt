@@ -1,3 +1,4 @@
-Reward Ratio 1.4
-Redeem Ratio 0.15
+Reward Ratio 2.3
+Redeem Ratio 0.01
 Max RTID 1
+Max STID 2

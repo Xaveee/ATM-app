@@ -1,54 +1,6 @@
 Transaction ID T0000000001
-Customer ID CID0000000001
-Product ID P00001
-Price: $1221
-Points deducted: 12210
-
-Transaction ID T0000000002
-Customer ID CID0000000001
+Customer ID CID0000000004
 Product ID P00005
 Price: $12
-Points deducted: 120
-
-Transaction ID T0000000003
-Customer ID CID0000000001
-Product ID P00005
-Price: $12
-Points deducted: 120
-
-Transaction ID T0000000004
-Customer ID CID0000000001
-Product ID P00005
-Price: $12
-Points deducted: 120
-
-Transaction ID T0000000005
-Customer ID CID0000000001
-Product ID P00005
-Price: $12
-Points deducted: 120
-
-Transaction ID T0000000006
-Customer ID CID0000000001
-Product ID P00006
-Price: $213
-Points deducted: 2130
-
-Transaction ID T0000000001
-Customer ID CID0000000002
-Product ID P00005
-Price: $12
-Points deducted: 120
-
-Transaction ID T0000000002
-Customer ID CID0000000002
-Product ID P00006
-Price: $213
-Points deducted: 2130
-
-Transaction ID T0000000002
-Customer ID CID0000000006
-Product ID P00005
-Price: $12
-Points deducted: 120
+Points deducted: 1200
 
