@@ -1,5 +1,9 @@
 #include <iostream>
-//#include "Rewardmanagement.h"
+#include <vector>
+#include <fstream>
+#include <string>
+#include <math.h>
+#include "Rewardmanagement.h"
 
 using namespace std;
 int Rewardpoints(double purchase, double rate);
@@ -9,7 +13,9 @@ int shopping_amount;
 int reward_points;
 string gift;
 
-void Rewardmanagment(int points, int amount, float total_points)
+
+
+void Reward_managment(vector<Rewardmanagement> &vect, int amount)
 {
     cout << "How many points are avaliable?";
     cin >> points;
@@ -34,6 +40,7 @@ void Rewardmanagment(int points, int amount, float total_points)
     else
         cout << "Invalid input.";
 }
+
 
 void givenPoints(int points, int shopping_amount)
 {
